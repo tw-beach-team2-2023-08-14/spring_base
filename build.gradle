@@ -1,0 +1,75 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id "com.avast.gradle.docker-compose" version "0.13.4"
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "idea"
+    id "org.flywaydb.flyway" version "7.3.0"
+    id "com.diffplug.gradle.spotless" version "4.5.1"
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '8'
+
+repositories {
+    mavenCentral()
+}
+
+apply from: "${rootProject.projectDir}/gradle/integration-test.gradle"
+apply from: "${rootProject.projectDir}/gradle/idea.gradle"
+apply from: "${rootProject.projectDir}/gradle/docker-compose.gradle"
+apply from: "${rootProject.projectDir}/gradle/spotless.gradle"
+
+dependencies {
+    compileOnly('org.projectlombok:lombok:1.18.16')
+    annotationProcessor('org.projectlombok:lombok:1.18.16')
+    compileOnly('org.mapstruct:mapstruct-processor:1.3.1.Final')
+    annotationProcessor('org.mapstruct:mapstruct-processor:1.3.1.Final')
+    compileOnly("com.querydsl:querydsl-apt:4.3.1")
+    annotationProcessor(
+            "com.querydsl:querydsl-apt:4.3.1:jpa",
+            "javax.persistence:javax.persistence-api:2.2",
+            "javax.annotation:javax.annotation-api:1.3.2"
+    )
+
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    implementation('org.mapstruct:mapstruct-jdk8:1.3.1.Final')
+    implementation('org.flywaydb:flyway-core')
+    implementation("org.apache.commons:commons-collections4:4.4")
+    implementation("org.apache.commons:commons-lang3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.8")
+    implementation('com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3')
+    implementation("com.querydsl:querydsl-jpa:4.3.1")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:3.23.1")
+
+    runtimeOnly('mysql:mysql-connector-java')
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.tngtech.archunit:archunit:0.17.0")
+    testImplementation("com.tngtech.archunit:archunit-junit4:0.17.0")
+    testImplementation("io.rest-assured:spring-mock-mvc:4.1.2")
+    testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
+    testImplementation("org.dbunit:dbunit:2.6.0")
+    testImplementation("org.jyaml:jyaml:1.3")
+    testImplementation("org.powermock:powermock-module-junit4:2.0.7")
+    testImplementation("org.powermock:powermock-api-mockito2:2.0.7")
+}
+
+bootRun {
+    args = ["--spring.profiles.active=local"]
+    jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"]
+}
+
+wrapper {
+    gradleVersion = '6.7.1'
+}
+
+test {
+    useJUnitPlatform()
+}

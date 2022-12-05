@@ -1,0 +1,12 @@
+apply plugin: "com.diffplug.gradle.spotless"
+
+spotless {
+    java {
+        eclipse().configFile 'config/spotless/eclipse-java-google-style.xml'
+
+        removeUnusedImports()
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}

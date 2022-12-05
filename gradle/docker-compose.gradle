@@ -1,0 +1,9 @@
+apply plugin: "com.avast.gradle.docker-compose"
+
+dockerCompose {
+    integrationTest {
+        useComposeFiles = ['docker-compose.yaml']
+    }
+}
+
+//dockerCompose.integrationTest.isRequiredBy(integrationTest)

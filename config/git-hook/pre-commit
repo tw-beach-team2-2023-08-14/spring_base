@@ -1,0 +1,8 @@
+#!/bin/sh
+#set -x
+
+./gradlew spotlessJavaCheck
+
+RESULT=$?
+exit $RESULT
+
