@@ -1,0 +1,24 @@
+package com.example.infrastructure.persistence.repository.domain;
+
+import com.example.domain.entity.Customer;
+import com.example.domain.repository.CustomerRepository;
+import com.example.infrastructure.persistence.assembler.CustomerDataMapper;
+import com.example.infrastructure.persistence.repository.JpaCustomerRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_CUSTOMER;
+import static com.example.common.exception.NotFoundException.notFoundException;
+
+@Component
+@AllArgsConstructor
+public class CustomerDomainRepository implements CustomerRepository {
+  private final JpaCustomerRepository jpaCustomerRepository;
+  private final CustomerDataMapper mapper = CustomerDataMapper.mapper;
+
+  @Override
+  public Customer findById(String id) {
+    return mapper.toDo(
+        jpaCustomerRepository.findById(id).orElseThrow(notFoundException(NOT_FOUND_CUSTOMER)));
+  }
+}

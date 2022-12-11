@@ -11,6 +11,6 @@ services:
       --collation-server=utf8mb4_unicode_ci
     environment:
       - "MYSQL_DATABASE=spring_base"
-      - "MYSQL_ROOT_PASSWORD=PASSWORD"
+      - "MYSQL_ROOT_PASSWORD=password"
     ports:
       - "3306:3306"
