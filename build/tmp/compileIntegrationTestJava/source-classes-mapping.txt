@@ -1,0 +1,2 @@
+com/example/BaseIntegrationTest.java
+ com.example.BaseIntegrationTest
