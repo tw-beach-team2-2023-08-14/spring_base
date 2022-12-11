@@ -19,15 +19,15 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "customer")
 public class CustomerPo {
-    @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+  @Id
+  @GeneratedValue(generator = "system-uuid")
+  @GenericGenerator(name = "system-uuid", strategy = "uuid")
+  private String id;
 
-    private LocalDateTime createTime = LocalDateTime.now();
+  private LocalDateTime createTime = LocalDateTime.now();
 
-    private LocalDateTime updateTime = LocalDateTime.now();
+  private LocalDateTime updateTime = LocalDateTime.now();
 
-    private String name;
+  private String name;
 
 }

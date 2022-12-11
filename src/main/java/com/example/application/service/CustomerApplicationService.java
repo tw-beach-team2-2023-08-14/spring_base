@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class CustomerApplicationService {
-    private final CustomerRepository customerRepository;
-    private final CustomerDtoMapper mapper = CustomerDtoMapper.MAPPER;
+  private final CustomerRepository customerRepository;
+  private final CustomerDtoMapper mapper = CustomerDtoMapper.MAPPER;
 
-    public CustomerDto findById(String id) {
-        return mapper.toDto(customerRepository.findById(id));
-    }
+  public CustomerDto findById(String id) {
+    return mapper.toDto(customerRepository.findById(id));
+  }
 }

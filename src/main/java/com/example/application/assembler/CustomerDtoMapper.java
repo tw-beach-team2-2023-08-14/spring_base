@@ -9,8 +9,8 @@ import static org.mapstruct.factory.Mappers.getMapper;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CustomerDtoMapper {
-    CustomerDtoMapper MAPPER = getMapper(CustomerDtoMapper.class);
+  CustomerDtoMapper MAPPER = getMapper(CustomerDtoMapper.class);
 
-    CustomerDto toDto(Customer customer);
+  CustomerDto toDto(Customer customer);
 
 }

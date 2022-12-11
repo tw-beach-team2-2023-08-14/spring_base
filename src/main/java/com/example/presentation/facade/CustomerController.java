@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("/customers")
 public class CustomerController {
-    private final CustomerApplicationService customerApplicationService;
+  private final CustomerApplicationService customerApplicationService;
 
-    @GetMapping("/{id}")
-    public CustomerDto findById(@PathVariable String id) {
-        return customerApplicationService.findById(id);
-    }
+  @GetMapping("/{id}")
+  public CustomerDto findById(@PathVariable String id) {
+    return customerApplicationService.findById(id);
+  }
 
 }
