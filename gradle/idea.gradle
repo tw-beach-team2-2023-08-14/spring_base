@@ -2,8 +2,8 @@ idea {
     module {
         testSourceDirs += file('src/integrationTest/java')
         testResourceDirs += file('src/integrationTest/resources')
-        scopes.TEST.plus += [configurations.integrationTestCompile]
-        scopes.TEST.plus += [configurations.integrationTestRuntime]
+        scopes.TEST.plus += [configurations.integrationTestImplementation]
+        scopes.TEST.plus += [configurations.integrationTestRuntimeClasspath]
     }
 
     project {

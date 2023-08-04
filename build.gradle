@@ -66,10 +66,6 @@ bootRun {
     jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"]
 }
 
-wrapper {
-    gradleVersion = '6.7.1'
-}
-
 test {
     useJUnitPlatform()
 }
