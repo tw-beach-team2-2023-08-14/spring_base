@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## jenv
+.java-version
+
+## macOS
+.DS_Store
