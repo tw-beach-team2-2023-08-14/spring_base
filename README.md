@@ -4,9 +4,9 @@
 
 ### 技术栈
 
-- Java 11
-- Spring Boot 2.4.2
-- Gradle 6.7.1
+- Java 17
+- Spring Boot 3.1.2
+- Gradle 8.2.1
 
 ### 本地依赖
 
@@ -62,6 +62,12 @@ docker-compose up
 
 ```
 ./gradlew cleanIdea openIdea
+```
+
+### 格式代码
+
+```
+./gradlew spotlessApply
 ```
 
 ### 提交代码
