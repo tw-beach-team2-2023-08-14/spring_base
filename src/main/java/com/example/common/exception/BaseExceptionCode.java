@@ -6,7 +6,6 @@ import lombok.Getter;
 public enum BaseExceptionCode implements IExceptionCode {
   NOT_FOUND_CUSTOMER("Not found customer.");
 
-
   BaseExceptionCode(String enMsg) {
     this.enMsg = enMsg;
   }

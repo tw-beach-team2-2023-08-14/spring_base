@@ -1,8 +1,7 @@
 package com.example.common.exception;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.function.Supplier;
+import org.apache.commons.lang3.StringUtils;
 
 public class NotFoundException extends RuntimeException {
   private final IExceptionCode code;
@@ -22,8 +21,8 @@ public class NotFoundException extends RuntimeException {
     this.message = message;
   }
 
-  public static Supplier<NotFoundException> notFoundException(ILangMessage customizeLangMessage,
-      String... messages) {
+  public static Supplier<NotFoundException> notFoundException(
+      ILangMessage customizeLangMessage, String... messages) {
     String message = StringUtils.join(messages, " ");
     return () -> new NotFoundException(ExceptionCode.NOT_FOUND, customizeLangMessage, message);
   }

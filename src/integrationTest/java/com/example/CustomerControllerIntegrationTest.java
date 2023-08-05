@@ -1,14 +1,13 @@
 package com.example;
 
+import static io.restassured.RestAssured.given;
+
 import com.example.infrastructure.persistence.repository.JpaCustomerRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static io.restassured.RestAssured.given;
-
 public class CustomerControllerIntegrationTest extends BaseIntegrationTest {
-  @Autowired
-  private JpaCustomerRepository jpaCustomerRepository;
+  @Autowired private JpaCustomerRepository jpaCustomerRepository;
 
   @Test
   public void findById_should_success() {

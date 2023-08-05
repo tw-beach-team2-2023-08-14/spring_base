@@ -3,12 +3,9 @@ package com.example.common.exception;
 public enum ExceptionCode implements IExceptionCode {
   NOT_FOUND("not found");
 
-
   String enMsg;
 
-  ExceptionCode() {
-
-  }
+  ExceptionCode() {}
 
   ExceptionCode(String enMsg) {
     this.enMsg = enMsg;
@@ -19,10 +16,8 @@ public enum ExceptionCode implements IExceptionCode {
     return this.name();
   }
 
-
   @Override
   public String getEnMsg() {
     return enMsg;
   }
-
 }

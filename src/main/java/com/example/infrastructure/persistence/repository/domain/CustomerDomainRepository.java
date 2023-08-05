@@ -1,14 +1,14 @@
 package com.example.infrastructure.persistence.repository.domain;
 
+import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_CUSTOMER;
+import static com.example.common.exception.NotFoundException.notFoundException;
+
 import com.example.domain.entity.Customer;
 import com.example.domain.repository.CustomerRepository;
 import com.example.infrastructure.persistence.assembler.CustomerDataMapper;
 import com.example.infrastructure.persistence.repository.JpaCustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_CUSTOMER;
-import static com.example.common.exception.NotFoundException.notFoundException;
 
 @Component
 @AllArgsConstructor

@@ -1,12 +1,11 @@
 package com.example.common.exception;
 
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
-
-import java.util.Locale;
 
 @Getter
 @Builder
@@ -25,7 +24,5 @@ public class MultiLanguageMessage {
       return zhMsg;
     }
     return enMsg;
-
   }
-
 }

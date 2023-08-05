@@ -8,13 +8,12 @@ public interface ILangMessage {
     return new Object[0];
   }
 
-  default void setParams(Object... params) {
-
-  }
+  default void setParams(Object... params) {}
 
   default String getLangMessage() {
-    return MultiLanguageMessage.builder().enMsg(String.format(getEnMsg(), getParams())).build()
+    return MultiLanguageMessage.builder()
+        .enMsg(String.format(getEnMsg(), getParams()))
+        .build()
         .getMessage();
   }
-
 }
