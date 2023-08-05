@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.0'
+    id 'org.springframework.boot' version '3.1.2'
     id "com.avast.gradle.docker-compose" version "0.13.4"
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
@@ -25,12 +25,10 @@ dependencies {
     annotationProcessor('org.projectlombok:lombok:1.18.22')
     compileOnly('org.mapstruct:mapstruct-processor:1.3.1.Final')
     annotationProcessor('org.mapstruct:mapstruct-processor:1.3.1.Final')
-    compileOnly("com.querydsl:querydsl-apt:5.0.0")
-    annotationProcessor(
-            "com.querydsl:querydsl-apt:5.0.0:jpa",
-            "javax.persistence:javax.persistence-api:2.2",
-            "javax.annotation:javax.annotation-api:1.3.2"
-    )
+    compileOnly("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    annotationProcessor('jakarta.persistence:jakarta.persistence-api:3.1.0')
+
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -45,15 +43,20 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.8")
     implementation('com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3')
-    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     implementation("com.diffplug.spotless:spotless-plugin-gradle:3.23.1")
 
-    runtimeOnly('mysql:mysql-connector-java')
+    runtimeOnly('com.mysql:mysql-connector-j:8.1.0')
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.tngtech.archunit:archunit:0.17.0")
     testImplementation("com.tngtech.archunit:archunit-junit4:0.17.0")
-    testImplementation("io.rest-assured:spring-mock-mvc:4.1.2")
+    testImplementation("io.rest-assured:rest-assured:5.3.1") {
+        exclude group: 'org.apache.groovy', module: 'groovy-xml'
+    }
+    testImplementation("io.rest-assured:spring-mock-mvc:5.3.1") {
+        exclude group: 'org.apache.groovy', module: 'groovy-xml'
+    }
     testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
     testImplementation("org.dbunit:dbunit:2.6.0")
     testImplementation("org.jyaml:jyaml:1.3")
