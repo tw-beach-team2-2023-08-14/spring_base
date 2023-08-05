@@ -58,6 +58,10 @@ docker-compose up
 ./gradlew bootRun
 ```
 
+### Swagger
+
+Local environment: http://localhost:9090/swagger-ui.html
+
 ### 用Intellij IDEA打开项目
 
 ```
@@ -76,3 +80,4 @@ docker-compose up
 git commit -m message
 git push
 ```
+
