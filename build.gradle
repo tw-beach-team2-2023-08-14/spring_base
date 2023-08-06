@@ -1,10 +1,10 @@
 plugins {
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
     id "idea"
     id "org.flywaydb.flyway" version "7.3.0"
     id 'com.diffplug.spotless' version '6.20.0'
+    id 'groovy'
 }
 
 group = 'com.example'
@@ -43,13 +43,11 @@ dependencies {
     implementation('com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3')
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     implementation("com.diffplug.spotless:spotless-plugin-gradle:3.23.1")
-    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 
     runtimeOnly('com.mysql:mysql-connector-j:8.1.0')
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("com.tngtech.archunit:archunit:0.17.0")
-    testImplementation("com.tngtech.archunit:archunit-junit4:0.17.0")
     testImplementation("io.rest-assured:rest-assured:5.3.1") {
         exclude group: 'org.apache.groovy', module: 'groovy-xml'
     }
@@ -59,13 +57,7 @@ dependencies {
     testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
     testImplementation("org.dbunit:dbunit:2.6.0")
     testImplementation("org.jyaml:jyaml:1.3")
-    testImplementation("org.powermock:powermock-module-junit4:2.0.7")
-    testImplementation("org.powermock:powermock-api-mockito2:2.0.7")
-}
-
-bootRun {
-    args = ["--spring.profiles.active=local"]
-    jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"]
+    testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
 }
 
 test {
