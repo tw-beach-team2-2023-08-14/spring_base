@@ -1,19 +1,38 @@
 package com.example;
 
+import static com.github.database.rider.core.api.configuration.Orthography.LOWERCASE;
+
+import com.github.database.rider.core.api.configuration.DBUnit;
+import com.github.database.rider.junit5.api.DBRider;
 import io.restassured.RestAssured;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DBRider
+@DBUnit(cacheConnection = false, schema = "spring_base", caseInsensitiveStrategy = LOWERCASE)
+@Testcontainers
 public abstract class BaseIntegrationTest {
   @LocalServerPort int port;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     RestAssured.port = port;
   }
+
+  @ServiceConnection @Container
+  private static final MySQLContainer mysql =
+      new MySQLContainer(DockerImageName.parse("mysql:8.0.22"))
+          .withDatabaseName("spring_base")
+          .withUsername("root")
+          .withPassword("password");
 }

@@ -1,7 +1,7 @@
 sourceSets {
     integrationTest {
         java.srcDir file('src/integrationTest/java')
-        resources.srcDir file('src/integrationTest/resources')
+        resources.srcDir file('src/integrationTest/resources/datasets')
         compileClasspath += sourceSets.main.output + sourceSets.test.output
         runtimeClasspath += sourceSets.main.output + sourceSets.test.output
     }

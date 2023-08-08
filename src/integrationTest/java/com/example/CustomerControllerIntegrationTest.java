@@ -3,7 +3,7 @@ package com.example;
 import static io.restassured.RestAssured.given;
 
 import com.example.infrastructure.persistence.repository.JpaCustomerRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CustomerControllerIntegrationTest extends BaseIntegrationTest {
