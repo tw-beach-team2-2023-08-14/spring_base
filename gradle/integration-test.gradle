@@ -12,7 +12,7 @@ configurations {
     integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
-task integrationTest(type: Test) {
+tasks.register('integrationTest', Test) {
     description = 'Integration tests.'
     group = 'verification'
 
