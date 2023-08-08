@@ -8,39 +8,6 @@ plugins {
     id 'jacoco'
 }
 
-jacoco {
-    toolVersion = "0.8.9"
-}
-
-apply from: "${rootProject.projectDir}/gradle/integration-test.gradle"
-apply from: "${rootProject.projectDir}/gradle/spotless.gradle"
-
-test {
-    finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-    getExecutionData().setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
-    dependsOn integrationTest
-    reports {
-        html.required.set(true)
-    }
-
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it,
-                    excludes: ['**/config/**',
-                               '**/assember/**',
-                               '**/exception/**',
-                               '**/entity/**',
-                               '**/vo/**',
-                               '**/SpringBaseApplication*'
-                    ])
-        }))
-    }
-}
-
-
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -48,7 +15,6 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     compileOnly('org.projectlombok:lombok:1.18.28')
@@ -88,6 +54,77 @@ dependencies {
     testImplementation('org.dbunit:dbunit:2.7.0')
     testImplementation('org.spockframework:spock-core:2.4-M1-groovy-4.0')
     testImplementation('org.assertj:assertj-core:3.24.2')
+}
+
+apply from: "${rootProject.projectDir}/gradle/integration-test.gradle"
+apply from: "${rootProject.projectDir}/gradle/spotless.gradle"
+
+jacoco {
+    toolVersion = "0.8.9"
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+jacocoTestCoverageVerification {
+    executionData(test, integrationTest)
+    dependsOn(test, integrationTest)
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.9
+            }
+        }
+    }
+}
+
+tasks.register('jacocoIntegrationTestReport', JacocoReport) {
+    dependsOn integrationTest
+
+    executionData integrationTest
+
+    reports {
+        html.required.set(true)
+    }
+
+    sourceDirectories.setFrom sourceSets.main.java.srcDirs
+
+    classDirectories.setFrom files(sourceSets.main.output.classesDirs.collect {
+        fileTree(dir: it, includes: ['**/*Controller.class'])
+    })
+}
+
+integrationTest.finalizedBy jacocoIntegrationTestReport
+
+jacocoTestReport {
+    executionData test
+    dependsOn test
+    reports {
+        html.required.set(true)
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    excludes: ['**/config/**',
+                               '**/assember/**',
+                               '**/exception/**',
+                               '**/entity/**',
+                               '**/vo/**',
+                               '**/SpringBaseApplication*',
+                               '**/*Mapper*',
+                               '**/Jpa*Repository',
+                               '**/*Controller.class'
+                    ])
+        }))
+    }
+}
+
+/// should add "jacocoTestCoverageVerification" when tests are added
+tasks.check {
+    dependsOn("jacocoTestReport", "jacocoIntegrationTestReport")
 }
 
 test {
