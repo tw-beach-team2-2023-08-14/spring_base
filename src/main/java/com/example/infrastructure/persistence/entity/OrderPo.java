@@ -1,17 +1,15 @@
 package com.example.infrastructure.persistence.entity;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 import com.example.domain.entity.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
@@ -20,22 +18,21 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "order")
 public class OrderPo {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private Integer id;
 
-    private String customerId;
+  private String customerId;
 
-    private BigDecimal totalPrice;
+  private BigDecimal totalPrice;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+  @Enumerated(EnumType.STRING)
+  private OrderStatus status;
 
-    private LocalDateTime createTime = LocalDateTime.now();
+  private LocalDateTime createTime = LocalDateTime.now();
 
-    private LocalDateTime updateTime = LocalDateTime.now();
+  private LocalDateTime updateTime = LocalDateTime.now();
 
-    @Column(columnDefinition = "json")
-    private String productDetails;
+  @Column(columnDefinition = "json")
+  private String productDetails;
 }
-
