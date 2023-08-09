@@ -4,6 +4,7 @@ import com.example.domain.entity.Order;
 import com.example.domain.repository.OrderRepository;
 import com.example.infrastructure.persistence.assembler.OrderDataMapper;
 import com.example.infrastructure.persistence.repository.JpaOrderRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class OrderDomainRepository implements OrderRepository {
   }
 
   @Override
-  public Integer save(Order order) {
+  public Integer save(Order order) throws JsonProcessingException {
     return jpaOrderRepository.save(mapper.toPo(order)).getId();
   }
 }

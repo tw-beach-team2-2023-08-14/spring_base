@@ -15,6 +15,7 @@ class OrderDomainRepositoryTest extends Specification {
 
     JpaOrderRepository jpaOrderRepository = Mock()
     OrderDomainRepository orderDomainRepository = new OrderDomainRepository(jpaOrderRepository)
+    ObjectMapper objectMapper = new ObjectMapper()
 //
 //    def "should retrieve order list by customer id"() {
 //        given:
@@ -79,21 +80,20 @@ class OrderDomainRepositoryTest extends Specification {
         LocalDateTime updateTime = LocalDateTime.now()
         Integer orderIdToCreate = Integer.valueOf(1)
 
-        List<OrderItem> orderItems = new ArrayList<OrderItem>()
-        orderItems.add(new OrderItem("orderItemId1", "orderItemName1", orderIdToCreate, 1))
+        List<OrderItem> orderItems = List.of(new OrderItem("orderItemId1", "orderItemName1", BigDecimal.ONE, 1))
 
-        ObjectMapper objectMapper = new ObjectMapper()
-        String orderItemsJson = objectMapper.writeValueAsString(orderItems)
-        Order orderToCreate = new Order(null, "consumerId", BigDecimal.valueOf(1L), OrderStatus.CREATED, createTime, updateTime, orderItems)
+        String orderItemsToSave = objectMapper.writeValueAsString(orderItems)
 
+        Order orderToSave = new Order(null, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, orderItems)
 
-        OrderPo orderPo = new OrderPo(Integer.valueOf(1), "consumerId", BigDecimal.valueOf(1L), OrderStatus.CREATED, createTime, updateTime, orderItemsJson)
+        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, orderItemsToSave)
 
-        jpaOrderRepository.save(_) >> orderPo
+        jpaOrderRepository.save(_) >> savedOrderPo
+
         when:
-        def orderId = orderDomainRepository.save(orderToCreate)
+        def orderId = orderDomainRepository.save(orderToSave)
 
         then:
-        Assertions.assertThat( orderIdToCreate == orderId)
+        Assertions.assertThat(orderIdToCreate == orderId)
     }
 }
