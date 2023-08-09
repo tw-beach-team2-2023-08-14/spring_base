@@ -13,15 +13,15 @@ class ProductApplicationServiceTest extends Specification {
 
     def "should return all products"() {
         given:
-        List<Product> jpaProducts = [
+        List<Product> productList = [
                 new Product(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID"),
                 new Product(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "INVALID"),
                 new Product(id: 3, name: "book2", price: null, status: "VALID"),
         ]
 
-        productRepository.findAll() >> jpaProducts
+        productRepository.findAll() >> productList
 
-        List<ProductDto> expectedProducts = [
+        List<ProductDto> expectedProductList = [
                 new ProductDto(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID"),
                 new ProductDto(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "INVALID"),
                 new ProductDto(id: 3, name: "book2", price: null, status: "VALID"),
@@ -34,6 +34,6 @@ class ProductApplicationServiceTest extends Specification {
         Assertions.assertThat(result)
                 .usingRecursiveComparison()
                 .ignoringCollectionOrder()
-                .isEqualTo(expectedProducts)
+                .isEqualTo(expectedProductList)
     }
 }
