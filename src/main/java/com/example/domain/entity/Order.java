@@ -1,7 +1,10 @@
 package com.example.domain.entity;
 
+import com.example.domain.util.OrderItemSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,11 +23,12 @@ public class Order {
 
   private BigDecimal totalPrice;
 
-  private String status;
+  private OrderStatus status;
 
   private LocalDateTime createTime;
 
   private LocalDateTime updateTime;
 
-  private String productDetails;
+  @JsonSerialize(using = OrderItemSerializer.class)
+  private List<OrderItem> orderItems;
 }

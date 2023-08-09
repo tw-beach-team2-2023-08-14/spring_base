@@ -11,10 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class OrderDomainRepository implements OrderRepository {
+
   private final JpaOrderRepository jpaOrderRepository;
   private final OrderDataMapper mapper = OrderDataMapper.mapper;
 
   public List<Order> findByCustomerId(String customerId) {
     return jpaOrderRepository.findByCustomerId(customerId).stream().map(mapper::toDo).toList();
+  }
+
+  @Override
+  public Integer save(Order order) {
+    return jpaOrderRepository.save(mapper.toPo(order)).getId();
   }
 }
