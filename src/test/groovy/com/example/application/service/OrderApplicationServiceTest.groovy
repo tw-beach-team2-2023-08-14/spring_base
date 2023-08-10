@@ -1,11 +1,13 @@
 package com.example.application.service
 
+import com.example.common.exception.BusinessException
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
+import com.example.domain.util.OrderIdGenerator
 import com.example.presentation.vo.*
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
@@ -18,10 +20,10 @@ class OrderApplicationServiceTest extends Specification {
     OrderRepository orderRepository = Mock()
     OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository)
 
-    def "should return correct order id"() {
+    def "should save order and return correct order id"() {
         given:
         Integer PRODUCT_ID = 11
-        Integer ORDER_ID = 1
+        String ORDER_ID = OrderIdGenerator.generateOrderIdGenerator().generateOrderId()
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
@@ -33,11 +35,35 @@ class OrderApplicationServiceTest extends Specification {
         orderRepository.save(_) >> ORDER_ID
 
         when:
-        Integer result = orderApplicationService.createOrder(orderReqDto)
+        String result = orderApplicationService.createOrder(orderReqDto)
 
         then:
-        Assertions.assertThat(result == 1)
+        Assertions.assertThat(result.equals(ORDER_ID))
     }
+
+    def "should throw exception given invalid product in order request"() {
+        given:
+        Integer PRODUCT_ID = 11
+        String ORDER_ID = OrderIdGenerator.generateOrderIdGenerator().generateOrderId()
+        Long QUANTITY = 10L
+
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
+        OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
+
+        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.INVALID)
+        productRepository.findById(PRODUCT_ID) >> product
+
+        orderRepository.save(_) >> ORDER_ID
+
+        when:
+        orderApplicationService.createOrder(orderReqDto)
+
+        then:
+        0 * orderRepository.save(_)
+        thrown(BusinessException)
+    }
+
+
 
     def "should retrieve order by consumer id"() {
         given:

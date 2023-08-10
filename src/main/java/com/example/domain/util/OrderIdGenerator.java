@@ -5,7 +5,7 @@ import java.util.Random;
 public class OrderIdGenerator {
   private OrderIdGenerator() {}
 
-  public static OrderIdGenerator GenerateOrderIdGenerator() {
+  public static OrderIdGenerator generateOrderIdGenerator() {
     return new OrderIdGenerator();
   }
 

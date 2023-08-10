@@ -1,7 +1,9 @@
 package com.example.application.service;
 
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
+import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
 
+import com.example.common.exception.BusinessException;
 import com.example.domain.convertor.ProductConvertor;
 import com.example.domain.entity.Order;
 import com.example.domain.entity.OrderStatus;
@@ -13,6 +15,7 @@ import com.example.domain.util.OrderIdGenerator;
 import com.example.presentation.vo.OrderListDto;
 import com.example.presentation.vo.OrderProductReqDto;
 import com.example.presentation.vo.OrderReqDto;
+import com.example.presentation.vo.ProductStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -40,7 +43,7 @@ public class OrderApplicationService {
 
     BigDecimal totalPrice = calculateTotalPrice(productDetails);
 
-    String orderId = OrderIdGenerator.GenerateOrderIdGenerator().generateOrderId();
+    String orderId = OrderIdGenerator.generateOrderIdGenerator().generateOrderId();
     Order order =
         new Order(
             null,
@@ -69,6 +72,10 @@ public class OrderApplicationService {
 
     for (OrderProductReqDto orderProduct : orderReqDto.getOrderProducts()) {
       Product product = productRepository.findById(orderProduct.getProductId());
+      if (product.getStatus() == ProductStatus.INVALID) {
+        throw new BusinessException(
+            INVALID_PRODUCT, "Product of id [" + product.getId() + "] is invalid");
+      }
       ProductDetail productDetail = productConvertor.toProductDetail(product);
       productDetail.setAmount(orderProduct.getQuantity());
       productDetails.add(productDetail);
