@@ -22,6 +22,8 @@ public class OrderPo {
   @GeneratedValue(strategy = IDENTITY)
   private Integer id;
 
+  private String orderId;
+
   private String customerId;
 
   private BigDecimal totalPrice;

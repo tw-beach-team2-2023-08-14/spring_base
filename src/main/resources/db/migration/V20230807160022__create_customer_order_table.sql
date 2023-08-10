@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS `customer_order`
 (
-    `id`              VARCHAR(32)    NOT NULL COMMENT '主键',
-    `customer_id`     VARCHAR(32)    NOT NULL COMMENT '客户ID',
+    `id`              INT   NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `order_id`        VARCHAR(64)    NOT NULL COMMENT '订单号',
+    `customer_id`     VARCHAR(64)    NOT NULL COMMENT '客户ID',
     `total_price`     DECIMAL(19, 2) NOT NULL COMMENT '总价',
     `status`          VARCHAR(32)    NOT NULL COMMENT '订单状态',
     `create_time`     TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

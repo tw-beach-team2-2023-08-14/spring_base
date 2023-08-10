@@ -29,9 +29,9 @@ class OrderDomainRepositoryTest extends Specification {
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
-        Order orderToSave = new Order(null, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
+        Order orderToSave = new Order(null, "consumerId", "orderId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
 
-        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
+        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), "consumerId", "orderId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
 
         jpaOrderRepository.save(_) >> savedOrderPo
 
@@ -57,6 +57,7 @@ class OrderDomainRepositoryTest extends Specification {
                 new OrderPo(
                         id: 1,
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
@@ -66,6 +67,7 @@ class OrderDomainRepositoryTest extends Specification {
                 new OrderPo(
                         id: 2,
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),
@@ -82,6 +84,7 @@ class OrderDomainRepositoryTest extends Specification {
                 new Order(
                         id: 1,
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
@@ -91,6 +94,7 @@ class OrderDomainRepositoryTest extends Specification {
                 new Order(
                         id: 2,
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 11, 30, 0),

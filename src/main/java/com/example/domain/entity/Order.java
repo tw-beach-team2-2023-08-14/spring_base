@@ -21,6 +21,8 @@ public class Order {
 
   private String customerId;
 
+  private String orderId;
+
   private BigDecimal totalPrice;
 
   private OrderStatus status;

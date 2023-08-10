@@ -1,6 +1,7 @@
 customer_order:
   - id: 1
     customer_id: "abcd"
+    order_id: "orderId"
     total_price: 20.00
     status: "CREATED"
     create_time: "2023-08-10 12:35:13"

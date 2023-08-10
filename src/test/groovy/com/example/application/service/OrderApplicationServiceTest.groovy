@@ -23,6 +23,7 @@ class OrderApplicationServiceTest extends Specification {
                 new Order(
                         id: 1,
                         customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
                         createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
