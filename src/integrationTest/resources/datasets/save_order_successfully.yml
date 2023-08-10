@@ -1,0 +1,13 @@
+product:
+  - id: 1001
+    name: book
+    price: 10.00
+    status: VALID
+  - id: 1002
+    name: Coffee
+    price: 20.00
+    status: VALID
+  - id: 1003
+    name: Cat can
+    price: 30.00
+    status: VALID
