@@ -13,6 +13,7 @@ import spock.lang.Specification
 import java.time.LocalDateTime
 
 class OrderApplicationServiceTest extends Specification {
+
     ProductRepository productRepository = Mock()
     OrderRepository orderRepository = Mock()
     OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository)
@@ -24,7 +25,7 @@ class OrderApplicationServiceTest extends Specification {
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
-        OrderReqDto orderReqDto = new OrderReqDto("customerId", BigDecimal.TEN, orderProducts)
+        OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID)
         productRepository.findById(PRODUCT_ID) >> product
