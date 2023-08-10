@@ -2,6 +2,8 @@ package com.example.infrastructure.persistence.repository.domain;
 
 import static com.example.infrastructure.persistence.assembler.OrderDataMapper.MAPPER;
 
+import com.example.common.exception.ExceptionCode;
+import com.example.common.exception.NotFoundException;
 import com.example.domain.entity.Order;
 import com.example.domain.repository.OrderRepository;
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper;
@@ -19,9 +21,14 @@ public class OrderDomainRepository implements OrderRepository {
   private final OrderProductDetailsDataMapper orderProductDetailsDataMapper;
 
   public List<Order> findByCustomerId(String customerId) {
-    return jpaOrderRepository.findByCustomerId(customerId).stream()
-        .map(orderProductDetailsDataMapper::mapOrderPoToOrder)
-        .toList();
+    List<Order> orders =
+        jpaOrderRepository.findByCustomerId(customerId).stream()
+            .map(orderProductDetailsDataMapper::mapOrderPoToOrder)
+            .toList();
+    if (orders.isEmpty()) {
+      throw new NotFoundException(ExceptionCode.NOT_FOUND, "Not found customer.");
+    }
+    return orders;
   }
 
   @Override
