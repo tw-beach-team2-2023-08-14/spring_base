@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `order`
+CREATE TABLE IF NOT EXISTS `customer_order`
 (
     `id`              VARCHAR(32)    NOT NULL COMMENT '主键',
     `customer_id`     VARCHAR(32)    NOT NULL COMMENT '客户ID',
@@ -9,6 +9,4 @@ CREATE TABLE IF NOT EXISTS `order`
     `product_details` JSON           NOT NULL COMMENT '商品明细',
     PRIMARY KEY (`id`)
         USING BTREE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_unicode_ci;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
