@@ -1,6 +1,6 @@
 customer_order:
   - id: 1
-    customer_id: "abcd"
+    customer_id: dcabcfac-6b08-47cd-883a-76c5dc366d88
     order_id: "orderId"
     total_price: 20.00
     status: "CREATED"
