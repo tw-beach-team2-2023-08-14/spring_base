@@ -32,7 +32,7 @@ public class OrderDomainRepository implements OrderRepository {
   }
 
   @Override
-  public Integer save(Order order) throws JsonProcessingException {
-    return jpaOrderRepository.save(MAPPER.toPo(order)).getId();
+  public String save(Order order) throws JsonProcessingException {
+    return jpaOrderRepository.save(MAPPER.toPo(order)).getOrderId();
   }
 }

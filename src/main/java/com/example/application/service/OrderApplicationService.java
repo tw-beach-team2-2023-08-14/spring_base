@@ -34,7 +34,7 @@ public class OrderApplicationService {
         .toList();
   }
 
-  public Integer createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
+  public String createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
 
     ArrayList<ProductDetail> productDetails = getProductDetails(orderReqDto);
 
@@ -56,7 +56,9 @@ public class OrderApplicationService {
 
   private static BigDecimal calculateTotalPrice(ArrayList<ProductDetail> productDetails) {
     return productDetails.stream()
-        .map(productDetail -> productDetail.getPrice().multiply(BigDecimal.valueOf(productDetail.getAmount())))
+        .map(
+            productDetail ->
+                productDetail.getPrice().multiply(BigDecimal.valueOf(productDetail.getAmount())))
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 

@@ -3,6 +3,7 @@ package com.example.infrastructure.persistence.repository.domain
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.ProductDetail
+import com.example.domain.util.OrderIdGenerator
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper
 import com.example.infrastructure.persistence.entity.OrderPo
 import com.example.infrastructure.persistence.repository.JpaOrderRepository
@@ -19,19 +20,19 @@ class OrderDomainRepositoryTest extends Specification {
     OrderProductDetailsDataMapper orderProductDetailsDataMapper = new OrderProductDetailsDataMapper()
     OrderDomainRepository orderDomainRepository = new OrderDomainRepository(jpaOrderRepository, orderProductDetailsDataMapper)
 
-    def "Should return order Id"() {
+    def "Should save order and return order Id"() {
         given:
         LocalDateTime createTime = LocalDateTime.now()
         LocalDateTime updateTime = LocalDateTime.now()
-        Integer orderIdToCreate = Integer.valueOf(1)
+        String orderIdToSave = OrderIdGenerator.GenerateOrderIdGenerator().generateOrderId()
 
         List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.ONE, 1))
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
-        Order orderToSave = new Order(null, "consumerId", "orderId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
+        Order orderToSave = new Order(null, "consumerId", orderIdToSave, BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
 
-        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), "consumerId", "orderId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
+        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), "consumerId", orderIdToSave, BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
 
         jpaOrderRepository.save(_) >> savedOrderPo
 
@@ -39,7 +40,7 @@ class OrderDomainRepositoryTest extends Specification {
         def orderId = orderDomainRepository.save(orderToSave)
 
         then:
-        Assertions.assertThat(orderIdToCreate == orderId)
+        Assertions.assertThat(orderIdToSave.equals(orderId))
     }
 
 

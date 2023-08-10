@@ -21,7 +21,7 @@ public class OrderController {
   private final OrderApplicationService orderApplicationService;
 
   @PostMapping("/creation")
-  public Integer createOrder(@RequestBody OrderReqDto orderReqDto) throws JsonProcessingException {
+  public String createOrder(@RequestBody OrderReqDto orderReqDto) throws JsonProcessingException {
     return orderApplicationService.createOrder(orderReqDto);
   }
 
