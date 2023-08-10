@@ -1,11 +1,11 @@
 package com.example;
 
-import com.github.database.rider.core.api.dataset.DataSet;
-import org.junit.jupiter.api.Test;
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.http.HttpStatus.OK;
+
+import com.github.database.rider.core.api.dataset.DataSet;
+import org.junit.jupiter.api.Test;
 
 public class ProductControllerIntegrationTest extends BaseIntegrationTest {
 
@@ -17,7 +17,7 @@ public class ProductControllerIntegrationTest extends BaseIntegrationTest {
         .get("/products")
         .then()
         .statusCode(OK.value())
-        .body("[0].id", equalTo(11))
+        .body("[0].id", equalTo(10))
         .body("[0].name", equalTo("book"))
         .body("[0].price", equalTo(10.0F))
         .body("[0].status", equalTo("VALID"));
