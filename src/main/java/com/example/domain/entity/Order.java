@@ -1,6 +1,6 @@
 package com.example.domain.entity;
 
-import com.example.domain.util.OrderItemSerializer;
+import com.example.domain.util.ProductDetailSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,6 +29,6 @@ public class Order {
 
   private LocalDateTime updateTime;
 
-  @JsonSerialize(using = OrderItemSerializer.class)
-  private List<OrderItem> orderItems;
+  @JsonSerialize(using = ProductDetailSerializer.class)
+  private List<ProductDetail> productDetails;
 }
