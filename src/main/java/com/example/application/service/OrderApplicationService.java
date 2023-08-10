@@ -27,8 +27,11 @@ public class OrderApplicationService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
 
-  public List<OrderListDto> findByCustomerId(String customerId) {
-    return orderRepository.findByCustomerId(customerId).stream().map(MAPPER::toDto).toList();
+  public List<OrderListDto> findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
+    return orderRepository.findByCustomerId(customerId).stream()
+        .map(MAPPER::toDto)
+        .filter(orderListDto -> orderId == null || orderId.equals(orderListDto.getOrderId()))
+        .toList();
   }
 
   public Integer createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {

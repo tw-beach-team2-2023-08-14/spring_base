@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,8 +25,11 @@ public class OrderController {
     return orderApplicationService.createOrder(orderReqDto);
   }
 
-  @GetMapping("/{customer_id}")
-  public List<OrderListDto> retrieveOrderListByCustomerId(@PathVariable UUID customer_id) {
-    return orderApplicationService.findByCustomerId(customer_id.toString());
+  @GetMapping
+  public List<OrderListDto> retrieveOrderList(
+      @RequestParam("customer_id") UUID customer_id,
+      @RequestParam(value = "order_id", required = false) String order_id) {
+    return orderApplicationService.findOrderByCustomerIdAndOrderId(
+        customer_id.toString(), order_id);
   }
 }
