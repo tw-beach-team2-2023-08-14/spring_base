@@ -56,7 +56,7 @@ public class OrderApplicationService {
 
   private static BigDecimal calculateTotalPrice(ArrayList<ProductDetail> productDetails) {
     return productDetails.stream()
-        .map(ProductDetail::getPrice)
+        .map(productDetail -> productDetail.getPrice().multiply(BigDecimal.valueOf(productDetail.getAmount())))
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
