@@ -3,6 +3,7 @@ sourceSets {
         java.srcDir file('src/integrationTest/java')
         resources.srcDir file('src/integrationTest/resources/datasets')
         compileClasspath += sourceSets.main.output + sourceSets.test.output
+        annotationProcessorPath += sourceSets.main.annotationProcessorPath + sourceSets.test.annotationProcessorPath
         runtimeClasspath += sourceSets.main.output + sourceSets.test.output
     }
 }
@@ -22,7 +23,5 @@ tasks.register('integrationTest', Test) {
 }
 
 integrationTest {
-    jvmArgs '-Dspring.profiles.active=test'
+    useJUnitPlatform()
 }
-
-check.dependsOn integrationTest
