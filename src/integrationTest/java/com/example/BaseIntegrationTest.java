@@ -11,14 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DBRider
 @ActiveProfiles("integrationTest")
@@ -28,7 +24,6 @@ import org.testcontainers.utility.DockerImageName;
     schema = "spring_base",
     caseInsensitiveStrategy = LOWERCASE,
     alwaysCleanAfter = true)
-@Testcontainers
 public abstract class BaseIntegrationTest {
   @LocalServerPort int port;
 
@@ -37,10 +32,14 @@ public abstract class BaseIntegrationTest {
     RestAssured.port = port;
   }
 
-  @ServiceConnection @Container
+  @ServiceConnection
   private static final MySQLContainer mysql =
       new MySQLContainer(DockerImageName.parse("mysql:8.0.22"))
           .withDatabaseName("spring_base")
           .withUsername("root")
           .withPassword("password");
+
+  static {
+    mysql.start();
+  }
 }
