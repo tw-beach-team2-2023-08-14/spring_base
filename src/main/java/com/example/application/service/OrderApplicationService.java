@@ -9,6 +9,7 @@ import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 import com.example.domain.repository.OrderRepository;
 import com.example.domain.repository.ProductRepository;
+import com.example.domain.util.OrderIdGenerator;
 import com.example.presentation.vo.OrderListDto;
 import com.example.presentation.vo.OrderProductReqDto;
 import com.example.presentation.vo.OrderReqDto;
@@ -36,11 +37,12 @@ public class OrderApplicationService {
 
     BigDecimal totalPrice = calculateTotalPrice(productDetails);
 
+    String orderId = OrderIdGenerator.GenerateOrderIdGenerator().generateOrderId();
     Order order =
         new Order(
             null,
             orderReqDto.getCustomerId(),
-            null, // TODO: 2023/8/10
+            orderId,
             totalPrice,
             OrderStatus.CREATED,
             LocalDateTime.now(),
