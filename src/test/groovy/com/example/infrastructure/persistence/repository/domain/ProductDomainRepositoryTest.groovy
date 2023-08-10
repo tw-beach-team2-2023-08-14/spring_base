@@ -1,13 +1,14 @@
 package com.example.infrastructure.persistence.repository.domain
 
+import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Product
+import com.example.domain.repository.ProductRepository
 import com.example.infrastructure.persistence.entity.ProductPo
 import com.example.infrastructure.persistence.repository.JpaProductRepository
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 
 class ProductDomainRepositoryTest extends Specification {
-
     JpaProductRepository jpaProductRepository = Mock()
     ProductDomainRepository productDomainRepository = new ProductDomainRepository(jpaProductRepository)
 
@@ -35,5 +36,32 @@ class ProductDomainRepositoryTest extends Specification {
                 .usingRecursiveComparison()
                 .ignoringCollectionOrder()
                 .isEqualTo(expectedProducts)
+    }
+
+    def "should return correct product"() {
+        given:
+        ProductPo jpaProduct = new ProductPo(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID")
+
+        jpaProductRepository.findById(1) >> Optional.of(jpaProduct)
+
+        Product expectedProduct = new Product(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID")
+
+        when:
+        def result = productDomainRepository.findById(1)
+
+        then:
+        Assertions.assertThat(result.equals(expectedProduct))
+    }
+
+
+    def "should throw exception given not exist product id"() {
+        given:
+        jpaProductRepository.findById(2) >> Optional.empty()
+
+        when:
+        productDomainRepository.findById(2)
+
+        then:
+        thrown(NotFoundException)
     }
 }

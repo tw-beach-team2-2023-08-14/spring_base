@@ -2,18 +2,41 @@ package com.example.application.service
 
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
+import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
 import com.example.domain.repository.OrderRepository
-import com.example.presentation.vo.OrderListDto
-import com.example.presentation.vo.OrderProductDetailDto
+import com.example.domain.repository.ProductRepository
+import com.example.presentation.vo.*
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 
 import java.time.LocalDateTime
 
 class OrderApplicationServiceTest extends Specification {
+    ProductRepository productRepository = Mock()
     OrderRepository orderRepository = Mock()
-    OrderApplicationService orderApplicationService = new OrderApplicationService(orderRepository)
+    OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository)
+
+    def "should return correct order id"() {
+        given:
+        Integer PRODUCT_ID = 11
+        Integer ORDER_ID = 1
+        Long QUANTITY = 10L
+
+        List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
+        OrderReqDto orderReqDto = new OrderReqDto("customerId", BigDecimal.TEN, orderProducts)
+
+        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.VALID)
+        productRepository.findById(PRODUCT_ID) >> product
+
+        orderRepository.save(_) >> ORDER_ID
+
+        when:
+        Integer result = orderApplicationService.createOrder(orderReqDto)
+
+        then:
+        Assertions.assertThat(result == 1)
+    }
 
     def "should retrieve order by consumer id"() {
         given:
