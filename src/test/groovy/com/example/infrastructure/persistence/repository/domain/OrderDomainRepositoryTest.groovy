@@ -32,7 +32,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         Order orderToSave = new Order(null, "consumerId", orderIdToSave, BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
 
-        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), "consumerId", orderIdToSave, BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
+        OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), orderIdToSave, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
 
         jpaOrderRepository.save(_) >> savedOrderPo
 
@@ -40,7 +40,7 @@ class OrderDomainRepositoryTest extends Specification {
         def orderId = orderDomainRepository.save(orderToSave)
 
         then:
-        Assertions.assertThat(orderIdToSave.equals(orderId))
+        Assertions.assertThat(orderId).usingRecursiveComparison().isEqualTo(orderIdToSave)
     }
 
 
