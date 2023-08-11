@@ -21,7 +21,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
   public void should_retrieve_order_list_by_customer_id_successfully() {
     given()
         .when()
-        .get("/orders?customer_id=dcabcfac-6b08-47cd-883a-76c5dc366d88")
+        .get("/orders?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88")
         .then()
         .statusCode(OK.value())
         .body("[0].id", equalTo(1))
@@ -46,7 +46,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
   public void should_retrieve_order_list_by_customer_id_and_order_id_successfully() {
     given()
         .when()
-        .get("/orders?customer_id=dcabcfac-6b08-47cd-883a-76c5dc366d88&order_id=orderId1")
+        .get("/orders?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88&orderId=orderId1")
         .then()
         .statusCode(OK.value())
         .body("[0].id", equalTo(1))

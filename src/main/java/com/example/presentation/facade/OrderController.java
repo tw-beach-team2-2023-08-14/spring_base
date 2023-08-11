@@ -27,9 +27,8 @@ public class OrderController {
 
   @GetMapping
   public List<OrderListDto> retrieveOrderList(
-      @RequestParam("customer_id") UUID customer_id,
-      @RequestParam(value = "order_id", required = false) String order_id) {
-    return orderApplicationService.findOrderByCustomerIdAndOrderId(
-        customer_id.toString(), order_id);
+      @RequestParam("customerId") UUID customer_id,
+      @RequestParam(value = "orderId", required = false) String orderId) {
+    return orderApplicationService.findOrderByCustomerIdAndOrderId(customer_id.toString(), orderId);
   }
 }
