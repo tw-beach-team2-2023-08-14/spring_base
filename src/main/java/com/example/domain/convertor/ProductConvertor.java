@@ -4,13 +4,12 @@ import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 
 public class ProductConvertor {
-  private ProductConvertor() {}
-
-  public static ProductConvertor generateProductConvertor() {
-    return new ProductConvertor();
+  private ProductConvertor() {
+    String exceptionMessage = "Class: " + ProductConvertor.class + " should not be instantiated.";
+    throw new UnsupportedOperationException(exceptionMessage);
   }
 
-  public ProductDetail toProductDetail(Product product) {
+  public static ProductDetail toProductDetail(Product product) {
     return new ProductDetail(product.getId(), product.getName(), product.getPrice(), null);
   }
 }
