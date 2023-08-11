@@ -2,16 +2,15 @@ package com.example.application.service;
 
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
 import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
+import static com.example.domain.entity.OrderStatus.CREATED;
 
 import com.example.common.exception.BusinessException;
 import com.example.domain.convertor.ProductConvertor;
 import com.example.domain.entity.Order;
-import com.example.domain.entity.OrderStatus;
 import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 import com.example.domain.repository.OrderRepository;
 import com.example.domain.repository.ProductRepository;
-import com.example.domain.util.OrderIdGenerator;
 import com.example.presentation.vo.OrderListDto;
 import com.example.presentation.vo.OrderProductReqDto;
 import com.example.presentation.vo.OrderReqDto;
@@ -43,17 +42,16 @@ public class OrderApplicationService {
 
     BigDecimal totalPrice = calculateTotalPrice(productDetails);
 
-    String orderId = OrderIdGenerator.generateOrderIdGenerator().generateOrderId();
     Order order =
-        new Order(
-            null,
-            orderReqDto.getCustomerId(),
-            orderId,
-            totalPrice,
-            OrderStatus.CREATED,
-            LocalDateTime.now(),
-            LocalDateTime.now(),
-            productDetails);
+        Order.builder()
+            .customerId(orderReqDto.getCustomerId())
+            .totalPrice(totalPrice)
+            .status(CREATED)
+            .createTime(LocalDateTime.now())
+            .updateTime(LocalDateTime.now())
+            .productDetails(productDetails)
+            .build();
+
     return orderRepository.save(order);
   }
 

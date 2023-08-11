@@ -1,5 +1,6 @@
 package com.example.domain.entity;
 
+import com.example.domain.util.OrderIdGenerator;
 import com.example.domain.util.ProductDetailSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class Order {
 
   private String customerId;
 
-  private String orderId;
+  @Builder.Default private String orderId = OrderIdGenerator.generateOrderId();
 
   private BigDecimal totalPrice;
 

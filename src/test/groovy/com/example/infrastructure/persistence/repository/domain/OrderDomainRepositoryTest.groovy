@@ -24,7 +24,7 @@ class OrderDomainRepositoryTest extends Specification {
         given:
         LocalDateTime createTime = LocalDateTime.now()
         LocalDateTime updateTime = LocalDateTime.now()
-        String orderIdToSave = OrderIdGenerator.generateOrderIdGenerator().generateOrderId()
+        String orderIdToSave = OrderIdGenerator.generateOrderId()
 
         List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.ONE, 1))
 

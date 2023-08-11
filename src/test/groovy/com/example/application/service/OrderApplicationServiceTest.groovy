@@ -23,7 +23,7 @@ class OrderApplicationServiceTest extends Specification {
     def "should save order and return correct order id"() {
         given:
         Integer PRODUCT_ID = 11
-        String ORDER_ID = OrderIdGenerator.generateOrderIdGenerator().generateOrderId()
+        String ORDER_ID = OrderIdGenerator.generateOrderId()
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
@@ -44,7 +44,7 @@ class OrderApplicationServiceTest extends Specification {
     def "should throw exception given invalid product in order request"() {
         given:
         Integer PRODUCT_ID = 11
-        String ORDER_ID = OrderIdGenerator.generateOrderIdGenerator().generateOrderId()
+        String ORDER_ID = OrderIdGenerator.generateOrderId()
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
