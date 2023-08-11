@@ -37,7 +37,9 @@ class OrderDomainRepositoryTest extends Specification {
         jpaOrderRepository.save(_) >> savedOrderPo
 
         when:
-        def orderId = orderDomainRepository.save(orderToSave)
+//        def orderId = orderDomainRepository.save(orderToSave)
+        def orderId = "To FAIL"
+
 
         then:
         Assertions.assertThat(orderId).usingRecursiveComparison().isEqualTo(orderIdToSave)
