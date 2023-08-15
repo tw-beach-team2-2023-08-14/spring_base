@@ -3,7 +3,7 @@ package com.example.infrastructure.persistence.repository.domain
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.ProductDetail
-import com.example.domain.util.OrderUtil
+
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper
 import com.example.infrastructure.persistence.entity.OrderPo
 import com.example.infrastructure.persistence.repository.JpaOrderRepository
