@@ -1,17 +1,15 @@
 package com.example.application.service;
 
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
-import static com.example.domain.entity.OrderStatus.CREATED;
 
 import com.example.domain.entity.Order;
 import com.example.domain.entity.ProductDetail;
+import com.example.domain.factory.OrderFactory;
 import com.example.domain.repository.OrderRepository;
 import com.example.domain.service.OrderService;
-import com.example.domain.util.OrderUtil;
 import com.example.presentation.vo.OrderListDto;
 import com.example.presentation.vo.OrderReqDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,15 +33,7 @@ public class OrderApplicationService {
     List<ProductDetail> productDetails =
         orderService.extractProductDetails(orderReqDto.getOrderProducts());
 
-    BigDecimal totalPrice = OrderUtil.calculateTotalPrice(productDetails);
-
-    Order order =
-        Order.builder()
-            .customerId(orderReqDto.getCustomerId())
-            .totalPrice(totalPrice)
-            .status(CREATED)
-            .productDetails(productDetails)
-            .build();
+    Order order = OrderFactory.createOrder(productDetails, orderReqDto.getCustomerId());
 
     return orderRepository.save(order);
   }
