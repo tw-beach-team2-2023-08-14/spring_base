@@ -1,11 +1,11 @@
 package com.example.domain.entity;
 
-import com.example.domain.util.OrderUtil;
 import com.example.domain.util.ProductDetailSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class Order {
 
   private String customerId;
 
-  @Builder.Default private String orderId = OrderUtil.generateOrderId();
+  @Builder.Default private String orderId = UUID.randomUUID().toString();
 
   private BigDecimal totalPrice;
 
