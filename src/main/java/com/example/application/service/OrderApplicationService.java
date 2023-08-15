@@ -1,31 +1,26 @@
 package com.example.application.service;
 
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
-import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
 import static com.example.domain.entity.OrderStatus.CREATED;
 
-import com.example.common.exception.BusinessException;
-import com.example.domain.convertor.ProductConvertor;
 import com.example.domain.entity.Order;
-import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 import com.example.domain.repository.OrderRepository;
-import com.example.domain.repository.ProductRepository;
+import com.example.domain.service.OrderService;
 import com.example.domain.util.OrderUtil;
 import com.example.presentation.vo.OrderListDto;
-import com.example.presentation.vo.OrderProductReqDto;
 import com.example.presentation.vo.OrderReqDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.function.Function;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class OrderApplicationService {
-  private final ProductRepository productRepository;
+  private final OrderService orderService;
+
   private final OrderRepository orderRepository;
 
   public List<OrderListDto> findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
@@ -37,7 +32,8 @@ public class OrderApplicationService {
 
   public String createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
 
-    List<ProductDetail> productDetails = getProductDetails(orderReqDto);
+    List<ProductDetail> productDetails =
+        orderService.extractProductDetails(orderReqDto.getOrderProducts());
 
     BigDecimal totalPrice = OrderUtil.calculateTotalPrice(productDetails);
 
@@ -50,26 +46,5 @@ public class OrderApplicationService {
             .build();
 
     return orderRepository.save(order);
-  }
-
-  private List<ProductDetail> getProductDetails(OrderReqDto orderReqDto) {
-
-    Function<OrderProductReqDto, ProductDetail> toProductDetail =
-        (orderProductReqDto) -> {
-          Product product = productRepository.findById(orderProductReqDto.getProductId());
-          checkValidStatus(product);
-          ProductDetail productDetail = ProductConvertor.toProductDetail(product);
-          productDetail.setAmount(orderProductReqDto.getQuantity());
-          return productDetail;
-        };
-
-    return orderReqDto.getOrderProducts().stream().map(toProductDetail).toList();
-  }
-
-  private static void checkValidStatus(Product product) {
-    if (!product.isValid()) {
-      throw new BusinessException(
-          INVALID_PRODUCT, "Product of id [" + product.getId() + "] is invalid");
-    }
   }
 }

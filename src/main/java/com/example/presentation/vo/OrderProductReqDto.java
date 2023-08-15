@@ -1,10 +1,10 @@
 package com.example.presentation.vo;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
 @AllArgsConstructor
+@Data
 public class OrderProductReqDto {
   private Integer productId;
   private Long quantity;
