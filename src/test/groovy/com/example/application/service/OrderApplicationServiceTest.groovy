@@ -6,10 +6,16 @@ import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
 import com.example.domain.entity.ProductStatus
+import com.example.domain.entity.*
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
 import com.example.domain.util.OrderUtil
 import com.example.presentation.vo.*
+import com.example.domain.repository.ProductRepository
+import com.example.presentation.vo.OrderListDto
+import com.example.presentation.vo.OrderProductDetailDto
+import com.example.presentation.vo.OrderProductReqDto
+import com.example.presentation.vo.OrderReqDto
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 
