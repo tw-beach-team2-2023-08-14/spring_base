@@ -16,5 +16,9 @@ public class Product {
 
   private BigDecimal price;
 
+  private BigDecimal discount;
+
+  private BigDecimal salePrice;
+
   private ProductStatus status;
 }
