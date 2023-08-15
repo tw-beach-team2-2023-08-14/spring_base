@@ -4,5 +4,4 @@ product:
     price: 10.00
     status: VALID
     discount: 0.7
-    sale_price: 7.00
     inventory: 10

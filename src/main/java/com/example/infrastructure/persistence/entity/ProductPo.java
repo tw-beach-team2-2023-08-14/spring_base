@@ -18,6 +18,5 @@ public class ProductPo {
   private BigDecimal price;
   private String status;
   private BigDecimal discount;
-  private BigDecimal salePrice;
   private Integer inventory;
 }
