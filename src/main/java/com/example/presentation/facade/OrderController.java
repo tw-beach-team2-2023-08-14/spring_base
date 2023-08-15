@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
   private final OrderApplicationService orderApplicationService;
 
-  @PostMapping("/creation")
+  @PostMapping
   public String createOrder(@RequestBody OrderReqDto orderReqDto) throws JsonProcessingException {
     return orderApplicationService.createOrder(orderReqDto);
   }
