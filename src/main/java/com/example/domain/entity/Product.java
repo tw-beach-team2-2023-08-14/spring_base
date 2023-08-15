@@ -43,4 +43,8 @@ public class Product {
   public Boolean isValid() {
     return status == ProductStatus.VALID;
   }
+
+  public ProductDetail toProductDetail(Long amount) {
+    return new ProductDetail(id, name, price, amount);
+  }
 }

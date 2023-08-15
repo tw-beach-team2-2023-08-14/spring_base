@@ -3,7 +3,6 @@ package com.example.domain.service;
 import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
 
 import com.example.common.exception.BusinessException;
-import com.example.domain.convertor.ProductConvertor;
 import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 import com.example.domain.repository.ProductRepository;
@@ -25,9 +24,7 @@ public class OrderService {
       OrderProductReqDto orderProductReqDto) {
     Product product = productRepository.findById(orderProductReqDto.getProductId());
     checkValidStatus(product);
-    ProductDetail productDetail = ProductConvertor.toProductDetail(product);
-    productDetail.setAmount(orderProductReqDto.getQuantity());
-    return productDetail;
+    return product.toProductDetail(orderProductReqDto.getQuantity());
   }
 
   private static void checkValidStatus(Product product) {
