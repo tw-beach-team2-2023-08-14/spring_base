@@ -17,5 +17,9 @@ public class ProductDto {
 
   private BigDecimal price;
 
+  private BigDecimal discount;
+
+  private BigDecimal salePrice;
+
   private String status;
 }
