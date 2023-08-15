@@ -5,6 +5,7 @@ import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
+import com.example.domain.entity.ProductStatus
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
 import com.example.domain.util.OrderUtil
@@ -18,7 +19,7 @@ class OrderApplicationServiceTest extends Specification {
 
     ProductRepository productRepository = Mock()
     OrderRepository orderRepository = Mock()
-    OrderApplicationService orderApplicationService = new OrderApplicationService(productRepository, orderRepository)
+    OrderApplicationService orderApplicationService = new OrderApplicationService(orderService, orderRepository)
 
     def "should save order and return correct order id"() {
         given:
@@ -50,7 +51,7 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
-        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.INVALID)
+        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.INVALID)
         productRepository.findById(PRODUCT_ID) >> product
 
         orderRepository.save(_) >> ORDER_ID
