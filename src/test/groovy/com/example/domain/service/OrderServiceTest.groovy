@@ -3,9 +3,9 @@ package com.example.domain.service
 import com.example.common.exception.BusinessException
 import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
+import com.example.domain.entity.ProductStatus
 import com.example.domain.repository.ProductRepository
 import com.example.presentation.vo.OrderProductReqDto
-import com.example.presentation.vo.ProductStatus
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 
