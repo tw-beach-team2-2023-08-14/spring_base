@@ -40,4 +40,8 @@ public class Product {
     BigDecimal multiply = price.multiply(discount);
     return multiply.setScale(4, RoundingMode.HALF_UP);
   }
+
+  public Boolean isValid() {
+    return status == ProductStatus.VALID;
+  }
 }

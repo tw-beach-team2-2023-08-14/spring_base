@@ -15,7 +15,6 @@ import com.example.domain.util.OrderUtil;
 import com.example.presentation.vo.OrderListDto;
 import com.example.presentation.vo.OrderProductReqDto;
 import com.example.presentation.vo.OrderReqDto;
-import com.example.presentation.vo.ProductStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -68,7 +67,7 @@ public class OrderApplicationService {
   }
 
   private static void checkValidStatus(Product product) {
-    if (product.getStatus() == ProductStatus.INVALID) {
+    if (!product.isValid()) {
       throw new BusinessException(
           INVALID_PRODUCT, "Product of id [" + product.getId() + "] is invalid");
     }
