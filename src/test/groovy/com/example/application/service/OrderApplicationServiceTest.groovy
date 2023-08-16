@@ -30,6 +30,7 @@ class OrderApplicationServiceTest extends Specification {
         given:
         Integer PRODUCT_ID = 11
         String ORDER_ID = UUID.randomUUID().toString()
+        OrderCreation newOrder = new OrderCreation(ORDER_ID)
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
@@ -38,19 +39,20 @@ class OrderApplicationServiceTest extends Specification {
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, )
         productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
-        orderRepository.save(_) >> ORDER_ID
+        orderRepository.save(_) >> newOrder
 
         when:
         String result = orderApplicationService.createOrder(orderReqDto)
 
         then:
-        Assertions.assertThat(result.equals(ORDER_ID))
+        Assertions.assertThat(result.equals(newOrder))
     }
 
     def "should throw exception given invalid product in order request"() {
         given:
         Integer PRODUCT_ID = 11
         String ORDER_ID = UUID.randomUUID().toString()
+        OrderCreation newOrder = new OrderCreation(ORDER_ID)
         Long QUANTITY = 10L
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
@@ -59,7 +61,7 @@ class OrderApplicationServiceTest extends Specification {
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null,ProductStatus.INVALID)
         productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
-        orderRepository.save(_) >> ORDER_ID
+        orderRepository.save(_) >> newOrder
 
         when:
         orderApplicationService.createOrder(orderReqDto)

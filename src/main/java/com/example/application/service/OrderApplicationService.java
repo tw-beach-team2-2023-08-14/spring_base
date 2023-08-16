@@ -3,6 +3,7 @@ package com.example.application.service;
 import static com.example.application.assembler.OrderListDtoMapper.MAPPER;
 
 import com.example.domain.entity.Order;
+import com.example.domain.entity.OrderCreation;
 import com.example.domain.entity.Product;
 import com.example.domain.entity.ProductDetail;
 import com.example.domain.factory.OrderFactory;
@@ -33,7 +34,8 @@ public class OrderApplicationService {
         .toList();
   }
 
-  public String createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
+  public OrderCreation createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
+
     List<Product> products =
         productRepository.findAllByIds(
             orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList());
@@ -43,7 +45,7 @@ public class OrderApplicationService {
 
     Order order = OrderFactory.createOrder(productDetails, orderReqDto.getCustomerId());
 
-    return orderRepository.save(order);
+    return new OrderCreation(orderRepository.save(order));
   }
 
   private List<ProductDetail> extractProductDetails(

@@ -1,6 +1,7 @@
 package com.example.presentation.facade;
 
 import com.example.application.service.OrderApplicationService;
+import com.example.domain.entity.OrderCreation;
 import com.example.presentation.vo.OrderListDto;
 import com.example.presentation.vo.OrderReqDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,7 +22,8 @@ public class OrderController {
   private final OrderApplicationService orderApplicationService;
 
   @PostMapping
-  public String createOrder(@RequestBody OrderReqDto orderReqDto) throws JsonProcessingException {
+  public OrderCreation createOrder(@RequestBody OrderReqDto orderReqDto)
+      throws JsonProcessingException {
     return orderApplicationService.createOrder(orderReqDto);
   }
 
