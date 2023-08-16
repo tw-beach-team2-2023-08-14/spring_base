@@ -20,14 +20,22 @@ public class Product {
 
   private ProductStatus status;
 
+  private Integer inventory;
+
   public Product(
-      Integer id, String name, BigDecimal price, BigDecimal discount, ProductStatus status) {
+      Integer id,
+      String name,
+      BigDecimal price,
+      BigDecimal discount,
+      ProductStatus status,
+      Integer inventory) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.discount = discount;
     this.status = status;
     this.salePrice = calculateDiscount();
+    this.inventory = inventory;
   }
 
   public BigDecimal calculateDiscount() {
@@ -47,5 +55,12 @@ public class Product {
 
   public ProductDetail toProductDetail(Long amount) {
     return new ProductDetail(id, name, price, amount);
+  }
+
+  public Boolean hasSufficientInventory(Long quantity) {
+    if (inventory == null || inventory <= 0) {
+      return false;
+    }
+    return inventory >= quantity.intValue();
   }
 }

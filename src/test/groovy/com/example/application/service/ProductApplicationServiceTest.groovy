@@ -16,9 +16,9 @@ class ProductApplicationServiceTest extends Specification {
     def "should return all products"() {
         given:
         List<Product> productList = [
-                new Product(1, "book", BigDecimal.valueOf(10L), null, ProductStatus.VALID),
-                new Product(2, "book2", BigDecimal.valueOf(10L), BigDecimal.valueOf(0.9D), ProductStatus.INVALID),
-                new Product(3, "book2", null, BigDecimal.valueOf(0.8D), ProductStatus.VALID),
+                new Product(1, "book", BigDecimal.valueOf(10L), null, ProductStatus.VALID, null),
+                new Product(2, "book2", BigDecimal.valueOf(10L), BigDecimal.valueOf(0.9D), ProductStatus.INVALID, null),
+                new Product(3, "book2", null, BigDecimal.valueOf(0.8D), ProductStatus.VALID, null),
         ]
 
         productRepository.findAll() >> productList
