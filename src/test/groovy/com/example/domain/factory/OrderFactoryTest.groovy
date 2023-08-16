@@ -12,8 +12,8 @@ class OrderFactoryTest extends Specification {
         Integer PRODUCT_ID_TWO = 2
         Long QUANTITY = 10L
         List<ProductDetail> productDetails = List.of(
-                new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, QUANTITY),
-                new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, QUANTITY)
+                new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.valueOf(0.9D), QUANTITY),
+                new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, BigDecimal.valueOf(0.9D), QUANTITY)
         )
 
 

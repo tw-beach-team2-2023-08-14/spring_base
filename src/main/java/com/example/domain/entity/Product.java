@@ -54,7 +54,7 @@ public class Product {
   }
 
   public ProductDetail toProductDetail(Long amount) {
-    return new ProductDetail(id, name, price, amount);
+    return new ProductDetail(id, name, price, discount, amount);
   }
 
   public Boolean hasSufficientInventory(Long quantity) {

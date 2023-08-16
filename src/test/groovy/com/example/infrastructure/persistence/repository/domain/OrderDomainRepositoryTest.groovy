@@ -26,7 +26,7 @@ class OrderDomainRepositoryTest extends Specification {
         LocalDateTime updateTime = LocalDateTime.now()
         String orderIdToSave = UUID.randomUUID().toString()
 
-        List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.ONE, 1))
+        List<ProductDetail> productDetails = List.of(new ProductDetail(1, "productDetailName1", BigDecimal.ONE, BigDecimal.valueOf(0.9D), 1))
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
