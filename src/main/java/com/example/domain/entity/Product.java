@@ -2,6 +2,7 @@ package com.example.domain.entity;
 
 import com.example.presentation.vo.ProductStatus;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import lombok.*;
 
 @Getter
@@ -26,16 +27,14 @@ public class Product {
     this.price = price;
     this.discount = discount;
     this.status = status;
-    this.salePrice = calculateDiscount();
+    this.salePrice = price == null ? null : calculateDiscount();
   }
 
-
   private BigDecimal calculateDiscount() {
-    try {
-      BigDecimal multiply = price.multiply(discount);
-      return multiply;
-    } catch (Exception ignored) {
-      return null;
+    if (discount == null) {
+      discount = BigDecimal.ONE;
     }
+    BigDecimal multiply = price.multiply(discount);
+    return multiply.setScale(4, RoundingMode.HALF_UP);
   }
 }
