@@ -36,7 +36,7 @@ class OrderApplicationServiceTest extends Specification {
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, )
-        productRepository.findById(PRODUCT_ID) >> product
+        productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
         orderRepository.save(_) >> ORDER_ID
 
@@ -57,7 +57,7 @@ class OrderApplicationServiceTest extends Specification {
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null,ProductStatus.INVALID)
-        productRepository.findById(PRODUCT_ID) >> product
+        productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
         orderRepository.save(_) >> ORDER_ID
 

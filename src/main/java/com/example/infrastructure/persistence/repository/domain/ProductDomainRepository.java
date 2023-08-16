@@ -10,6 +10,7 @@ import com.example.infrastructure.persistence.entity.ProductPo;
 import com.example.infrastructure.persistence.repository.JpaProductRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -29,5 +30,12 @@ public class ProductDomainRepository implements ProductRepository {
     Optional<ProductPo> productPo = jpaProductRepository.findById(productId);
     productPo.orElseThrow(notFoundException(NOT_FOUND_PRODUCT));
     return mapper.toDo(productPo.get());
+  }
+
+  @Override
+  public List<Product> findAllByIds(List<Integer> productIds) {
+    return jpaProductRepository.findAllById(productIds).stream()
+        .map(mapper::toDo)
+        .collect(Collectors.toList());
   }
 }

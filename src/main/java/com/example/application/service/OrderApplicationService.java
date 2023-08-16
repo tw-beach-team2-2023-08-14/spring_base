@@ -34,11 +34,9 @@ public class OrderApplicationService {
   }
 
   public String createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
-
     List<Product> products =
-        orderReqDto.getOrderProducts().stream()
-            .map((product) -> productRepository.findById(product.getProductId()))
-            .toList();
+        productRepository.findAllByIds(
+            orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList());
 
     List<OrderProductReqDto> orderProductDtoList = orderReqDto.getOrderProducts();
     Map<Integer, Long> map =

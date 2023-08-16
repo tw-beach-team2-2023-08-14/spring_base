@@ -1,8 +1,7 @@
 package com.example.infrastructure.persistence.repository.domain
 
-import com.example.common.exception.NotFoundException
+
 import com.example.domain.entity.Product
-import com.example.domain.repository.ProductRepository
 import com.example.infrastructure.persistence.entity.ProductPo
 import com.example.infrastructure.persistence.repository.JpaProductRepository
 import org.assertj.core.api.Assertions
@@ -42,26 +41,26 @@ class ProductDomainRepositoryTest extends Specification {
         given:
         ProductPo jpaProduct = new ProductPo(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID")
 
-        jpaProductRepository.findById(1) >> Optional.of(jpaProduct)
+        jpaProductRepository.findAllById(List.of(1)) >> List.of(jpaProduct)
 
         Product expectedProduct = new Product(id: 1, name: "book", price: BigDecimal.valueOf(10L), status: "VALID")
 
         when:
-        def result = productDomainRepository.findById(1)
+        def result = productDomainRepository.findAllByIds(List.of(1))
 
         then:
         Assertions.assertThat(result.equals(expectedProduct))
     }
 
 
-    def "should throw exception given not exist product id"() {
+    def "should return empty list given not exist product id"() {
         given:
-        jpaProductRepository.findById(2) >> Optional.empty()
+        jpaProductRepository.findAllById(List.of(2)) >> List.of()
 
         when:
-        productDomainRepository.findById(2)
+        def result = productDomainRepository.findAllByIds(List.of(2))
 
         then:
-        thrown(NotFoundException)
+        Assertions.assertThat(result.size() == 0)
     }
 }
