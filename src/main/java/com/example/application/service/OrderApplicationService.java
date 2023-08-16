@@ -38,22 +38,28 @@ public class OrderApplicationService {
         productRepository.findAllByIds(
             orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList());
 
-    List<OrderProductReqDto> orderProductDtoList = orderReqDto.getOrderProducts();
-    Map<Integer, Long> map =
+    List<ProductDetail> productDetails =
+        extractProductDetails(products, orderReqDto.getOrderProducts());
+
+    Order order = OrderFactory.createOrder(productDetails, orderReqDto.getCustomerId());
+
+    return orderRepository.save(order);
+  }
+
+  private List<ProductDetail> extractProductDetails(
+      List<Product> productList, List<OrderProductReqDto> orderProductDtoList) {
+
+    Map<Integer, Long> productIdQuantityMap =
         orderProductDtoList.stream()
             .collect(
                 Collectors.toMap(
                     OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity));
 
-    List<ProductDetail> productDetails =
-        products.stream()
-            .map(
-                (product) ->
-                    OrderFactory.extractProductDetailFromProduct(product, map.get(product.getId())))
-            .toList();
-
-    Order order = OrderFactory.createOrder(productDetails, orderReqDto.getCustomerId());
-
-    return orderRepository.save(order);
+    return productList.stream()
+        .map(
+            (product) ->
+                OrderFactory.extractProductDetailFromProduct(
+                    product, productIdQuantityMap.get(product.getId())))
+        .toList();
   }
 }
