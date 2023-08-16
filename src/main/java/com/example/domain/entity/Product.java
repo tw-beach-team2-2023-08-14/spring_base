@@ -27,10 +27,13 @@ public class Product {
     this.price = price;
     this.discount = discount;
     this.status = status;
-    this.salePrice = price == null ? null : calculateDiscount();
+    this.salePrice = calculateDiscount();
   }
 
-  private BigDecimal calculateDiscount() {
+  public BigDecimal calculateDiscount() {
+    if (price == null) {
+      return null;
+    }
     if (discount == null) {
       discount = BigDecimal.ONE;
     }
