@@ -18,7 +18,7 @@ public class OrderFactory {
 
   public static Order createOrder(List<ProductDetail> productDetailList, String customerId) {
 
-    BigDecimal totalPrice = calculateTotalPrice(productDetailList);
+    BigDecimal totalPrice = calculateSaleTotalPrice(productDetailList);
 
     return Order.builder()
         .customerId(customerId)
@@ -36,13 +36,24 @@ public class OrderFactory {
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
+  private static BigDecimal calculateSaleTotalPrice(List<ProductDetail> productDetailList) {
+
+    return productDetailList.stream()
+        .map(
+            productDetail ->
+                productDetail
+                    .getSalePrice()
+                    .multiply(BigDecimal.valueOf(productDetail.getAmount())))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+
   public static ProductDetail extractProductDetailFromProduct(Product product, Long quantity) {
     checkValidStatus(product);
     return product.toProductDetail(quantity);
   }
 
   private static void checkValidStatus(Product product) {
-    if (!product.isValid()) {
+    if (!(product.isValid() && product.isValidPrice())) {
       throw new BusinessException(
           INVALID_PRODUCT, "Product of id [" + product.getId() + "] is invalid");
     }

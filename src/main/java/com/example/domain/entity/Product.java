@@ -53,8 +53,12 @@ public class Product {
     return status == ProductStatus.VALID;
   }
 
+  public Boolean isValidPrice() {
+    return price != null;
+  }
+
   public ProductDetail toProductDetail(Long amount) {
-    return new ProductDetail(id, name, price, discount, amount);
+    return new ProductDetail(id, name, price, calculateDiscount(), amount);
   }
 
   public Boolean hasSufficientInventory(Long quantity) {
