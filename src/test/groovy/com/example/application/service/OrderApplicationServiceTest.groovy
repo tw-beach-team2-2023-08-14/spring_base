@@ -9,7 +9,6 @@ import com.example.domain.entity.ProductStatus
 import com.example.domain.entity.*
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
-import com.example.domain.util.OrderUtil
 import com.example.presentation.vo.*
 import com.example.domain.repository.ProductRepository
 import com.example.presentation.vo.OrderListDto
@@ -25,7 +24,7 @@ class OrderApplicationServiceTest extends Specification {
 
     ProductRepository productRepository = Mock()
     OrderRepository orderRepository = Mock()
-    OrderApplicationService orderApplicationService = new OrderApplicationService(orderService, orderRepository)
+    OrderApplicationService orderApplicationService = new OrderApplicationService(orderRepository, productRepository)
 
     def "should save order and return correct order id"() {
         given:
@@ -36,7 +35,7 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
-        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID)
+        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, )
         productRepository.findById(PRODUCT_ID) >> product
 
         orderRepository.save(_) >> ORDER_ID
@@ -57,7 +56,7 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
-        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, ProductStatus.INVALID)
+        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null,ProductStatus.INVALID)
         productRepository.findById(PRODUCT_ID) >> product
 
         orderRepository.save(_) >> ORDER_ID

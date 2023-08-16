@@ -20,7 +20,8 @@ public class Product {
 
   private ProductStatus status;
 
-  public Product(Integer id, String name, BigDecimal price, BigDecimal discount, ProductStatus status) {
+  public Product(
+      Integer id, String name, BigDecimal price, BigDecimal discount, ProductStatus status) {
     this.id = id;
     this.name = name;
     this.price = price;

@@ -3,7 +3,7 @@ package com.example.application.service
 import com.example.domain.entity.Product
 import com.example.domain.repository.ProductRepository
 import com.example.presentation.vo.ProductDto
-import com.example.presentation.vo.ProductStatus
+import com.example.domain.entity.ProductStatus
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
 import java.math.RoundingMode
