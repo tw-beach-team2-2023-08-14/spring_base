@@ -37,11 +37,11 @@ public class OrderApplicationService {
   public OrderCreation createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
 
     List<Product> products =
-        productRepository.findAllByIds(
-            orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList());
+            productRepository.findAllByIds(
+                    orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList());
 
     List<ProductDetail> productDetails =
-        extractProductDetails(products, orderReqDto.getOrderProducts());
+            extractProductDetails(products, orderReqDto.getOrderProducts());
 
     Order order = OrderFactory.createOrder(productDetails, orderReqDto.getCustomerId());
 
@@ -49,19 +49,19 @@ public class OrderApplicationService {
   }
 
   private List<ProductDetail> extractProductDetails(
-      List<Product> productList, List<OrderProductReqDto> orderProductDtoList) {
+          List<Product> productList, List<OrderProductReqDto> orderProductDtoList) {
 
     Map<Integer, Long> productIdQuantityMap =
-        orderProductDtoList.stream()
-            .collect(
-                Collectors.toMap(
-                    OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity));
+            orderProductDtoList.stream()
+                    .collect(
+                            Collectors.toMap(
+                                    OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity));
 
     return productList.stream()
-        .map(
-            (product) ->
-                OrderFactory.extractProductDetailFromProduct(
-                    product, productIdQuantityMap.get(product.getId())))
-        .toList();
+            .map(
+                    (product) ->
+                            OrderFactory.extractProductDetailFromProduct(
+                                    product, productIdQuantityMap.get(product.getId())))
+            .toList();
   }
 }
