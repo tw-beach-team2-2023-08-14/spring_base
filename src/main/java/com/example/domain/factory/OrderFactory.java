@@ -36,11 +36,11 @@ public class OrderFactory {
             productDetail ->
                 productDetail
                     .getSalePrice()
-                    .multiply(BigDecimal.valueOf(productDetail.getAmount())))
+                    .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
         .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 
-  public static ProductDetail extractProductDetailFromProduct(Product product, Long quantity) {
+  public static ProductDetail extractProductDetailFromProduct(Product product, Integer quantity) {
     checkValidStatus(product);
     checkProductInventory(product, quantity);
     return product.toProductDetail(quantity);
@@ -53,7 +53,7 @@ public class OrderFactory {
     }
   }
 
-  private static void checkProductInventory(Product product, Long quantity) {
+  private static void checkProductInventory(Product product, Integer quantity) {
     if (!product.hasSufficientInventory(quantity)) {
       throw new BusinessException(
           INSUFFICIENT_PRODUCT, "Product of id [" + product.getId() + "] is insufficient");

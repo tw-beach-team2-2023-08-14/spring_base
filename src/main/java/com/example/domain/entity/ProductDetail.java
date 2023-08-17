@@ -17,21 +17,21 @@ public class ProductDetail {
 
   private BigDecimal totalPreferentialPrice;
 
-  private Long amount;
+  private Integer quantity;
 
   public ProductDetail(
-      Integer id, String name, BigDecimal price, BigDecimal salePrice, Long amount) {
+      Integer id, String name, BigDecimal price, BigDecimal salePrice, Integer quantity) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.salePrice = salePrice;
-    this.amount = amount;
+    this.quantity = quantity;
     this.totalPreferentialPrice = calculateTotalPreferentialPrice();
   }
 
   private BigDecimal calculateTotalPreferentialPrice() {
     return price
-        .multiply(BigDecimal.valueOf(amount))
-        .subtract(salePrice.multiply(BigDecimal.valueOf(amount)));
+        .multiply(BigDecimal.valueOf(quantity))
+        .subtract(salePrice.multiply(BigDecimal.valueOf(quantity)));
   }
 }

@@ -16,7 +16,7 @@ class OrderFactoryTest extends Specification {
         given:
         Integer PRODUCT_ID_ONE = 1
         Integer PRODUCT_ID_TWO = 2
-        Long QUANTITY = 10L
+        Integer QUANTITY = 10
         List<ProductDetail> productDetails = List.of(
                 new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.valueOf(9D), BigDecimal.TEN, QUANTITY),
                 new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, BigDecimal.valueOf(9D), BigDecimal.TEN, QUANTITY)
@@ -34,7 +34,7 @@ class OrderFactoryTest extends Specification {
     def "should extract product detail list correctly"() {
         given:
         Integer PRODUCT_ID_ONE = 1
-        Long QUANTITY = 5L
+        Integer QUANTITY = 5
         Product product = new Product(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, null, ProductStatus.VALID, 10)
         ProductDetail expectedResult = new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, new BigDecimal("10.00"), new BigDecimal("0.00"), QUANTITY)
 
@@ -48,7 +48,7 @@ class OrderFactoryTest extends Specification {
     def "should throw exception when extract product detail list and there is insufficient stock"() {
         given:
         Integer PRODUCT_ID_ONE = 1
-        Long QUANTITY = 11L
+        Integer QUANTITY = 11
         Product product = new Product(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, null, ProductStatus.VALID, 10)
 
         when:
@@ -62,7 +62,7 @@ class OrderFactoryTest extends Specification {
         given:
         Integer PRODUCT_ID_ONE = 1
         Integer PRODUCT_ID_TWO = 2
-        Long QUANTITY = 10L
+        Integer QUANTITY = 10
         List<ProductDetail> productDetails = List.of(
                 new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.TEN, BigDecimal.ZERO, QUANTITY),
                 new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, BigDecimal.TEN, BigDecimal.ZERO, QUANTITY)

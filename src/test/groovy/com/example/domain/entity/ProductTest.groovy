@@ -48,7 +48,7 @@ class ProductTest extends Specification {
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), null, ProductStatus.VALID, 10)
 
         when:
-        Boolean hasSufficientStock = product.hasSufficientInventory(5L)
+        Boolean hasSufficientStock = product.hasSufficientInventory(5)
 
         then:
         assertEquals(true, hasSufficientStock)
@@ -59,7 +59,7 @@ class ProductTest extends Specification {
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), null, ProductStatus.VALID, 10)
 
         when:
-        Boolean hasSufficientStock = product.hasSufficientInventory(15L)
+        Boolean hasSufficientStock = product.hasSufficientInventory(15)
 
         then:
         assertEquals(false, hasSufficientStock)
@@ -70,13 +70,13 @@ class ProductTest extends Specification {
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), null, ProductStatus.VALID, null)
 
         when:
-        Boolean hasSufficientStock = product.hasSufficientInventory(5L)
+        Boolean hasSufficientStock = product.hasSufficientInventory(5)
 
         then:
         assertEquals(false, hasSufficientStock)
     }
 
-    def "should return product detail totalPreferentialPrice when give amount"() {
+    def "should return product detail totalPreferentialPrice when give quantity"() {
         given:
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
 

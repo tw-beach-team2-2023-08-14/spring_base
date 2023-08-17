@@ -44,7 +44,7 @@ public class Order {
                 productDetail ->
                     productDetail
                         .getPrice()
-                        .multiply(BigDecimal.valueOf(productDetail.getAmount())))
+                        .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
   }
 }

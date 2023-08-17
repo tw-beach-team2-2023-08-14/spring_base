@@ -24,7 +24,7 @@ class OrderApplicationServiceTest extends Specification {
         Integer PRODUCT_ID = 11
         String ORDER_ID = UUID.randomUUID().toString()
         OrderCreation newOrder = new OrderCreation(ORDER_ID)
-        Long QUANTITY = 10L
+        Integer QUANTITY = 10
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
@@ -49,7 +49,7 @@ class OrderApplicationServiceTest extends Specification {
         Integer PRODUCT_ID = 11
         String ORDER_ID = UUID.randomUUID().toString()
         OrderCreation newOrder = new OrderCreation(ORDER_ID)
-        Long QUANTITY = 10L
+        Integer QUANTITY = 10
 
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
@@ -71,7 +71,7 @@ class OrderApplicationServiceTest extends Specification {
 
     def "should retrieve order by consumer id"() {
         given:
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
 
         List<Order> OrderDetails = [
                 new Order(
@@ -89,7 +89,7 @@ class OrderApplicationServiceTest extends Specification {
 
         orderRepository.findByCustomerId(_) >> OrderDetails
 
-        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
         List<OrderListDto> expectedOrderList = [
                 new OrderListDto(
                         id: 1,
@@ -115,7 +115,7 @@ class OrderApplicationServiceTest extends Specification {
 
     def "should filter order by order id and customer id when retrieve order"() {
         given:
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
 
         List<Order> OrderDetails = [
                 new Order(
@@ -144,7 +144,7 @@ class OrderApplicationServiceTest extends Specification {
 
         orderRepository.findByCustomerId(_) >> OrderDetails
 
-        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
         List<OrderListDto> expectedOrderList = [
                 new OrderListDto(
                         id: 1,

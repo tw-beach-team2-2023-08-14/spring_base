@@ -51,7 +51,7 @@ class OrderDomainRepositoryTest extends Specification {
                          "id": 1,
                          "name": "water",
                          "price": 10,
-                         "amount": 2
+                         "quantity": 2
                      }]
                 '''
         List<OrderPo> jpaOrdersList = [
@@ -79,7 +79,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         jpaOrderRepository.findByCustomerId("dcabcfac-6b08-47cd-883a-76c5dc366d88") >> jpaOrdersList
 
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), amount: 2)]
+        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
 
         List<Order> expectedOrder = [
                 new Order(

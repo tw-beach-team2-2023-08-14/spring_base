@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class OrderProductReqDto {
   private Integer productId;
-  private Long quantity;
+  private Integer quantity;
 }

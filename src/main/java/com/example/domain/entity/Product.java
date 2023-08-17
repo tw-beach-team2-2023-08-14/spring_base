@@ -63,15 +63,17 @@ public class Product {
     return price != null;
   }
 
-  public ProductDetail toProductDetail(Long amount) {
-    return new ProductDetail(id, name, price, calculateDiscountPricePrice(), amount);
+  public ProductDetail toProductDetail(Integer quantity) {
+    return new ProductDetail(
+        id, name, price, calculateDiscountPricePrice(), quantity);
   }
 
-  public Boolean hasSufficientInventory(Long quantity) {
+
+  public Boolean hasSufficientInventory(Integer quantity) {
     if (inventory == null || inventory <= 0) {
       return false;
     }
-    return inventory >= quantity.intValue();
+    return inventory >= quantity;
   }
 
   public void deductInventory(Integer deductAmount) {

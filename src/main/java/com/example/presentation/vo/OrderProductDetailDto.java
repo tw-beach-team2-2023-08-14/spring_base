@@ -19,7 +19,7 @@ public class OrderProductDetailDto {
 
   private BigDecimal salePrice;
 
-  private Long amount;
+  private Integer quantity;
 
   private BigDecimal totalPreferentialPrice;
 }

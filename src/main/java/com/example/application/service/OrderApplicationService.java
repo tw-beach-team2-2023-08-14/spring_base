@@ -43,7 +43,7 @@ public class OrderApplicationService {
         productRepository.findAllByIds(
             orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList());
 
-    Map<Integer, Long> productIdQuantityMap =
+    Map<Integer, Integer> productIdQuantityMap =
         extractProductsOrderedQuantity(orderReqDto.getOrderProducts());
 
     List<ProductDetail> productDetails = extractProductDetails(products, productIdQuantityMap);
@@ -53,14 +53,14 @@ public class OrderApplicationService {
     return new OrderCreation(orderRepository.save(order));
   }
 
-  private void updateInventory(List<Product> products, Map<Integer, Long> productIdQuantityMap) {
+  private void updateInventory(List<Product> products, Map<Integer, Integer> productIdQuantityMap) {
     products.forEach(
-        (product) -> product.deductInventory(productIdQuantityMap.get(product.getId()).intValue()));
+        (product) -> product.deductInventory(productIdQuantityMap.get(product.getId())));
     productRepository.updateProductsInventory(products);
   }
 
   private List<ProductDetail> extractProductDetails(
-      List<Product> productList, Map<Integer, Long> productIdQuantityMap) {
+      List<Product> productList, Map<Integer, Integer> productIdQuantityMap) {
     return productList.stream()
         .map(
             (product) ->
@@ -69,7 +69,7 @@ public class OrderApplicationService {
         .toList();
   }
 
-  private static Map<Integer, Long> extractProductsOrderedQuantity(
+  private static Map<Integer, Integer> extractProductsOrderedQuantity(
       List<OrderProductReqDto> orderProductDtoList) {
     return orderProductDtoList.stream()
         .collect(

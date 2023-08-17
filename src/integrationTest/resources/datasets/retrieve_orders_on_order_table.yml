@@ -11,7 +11,7 @@ customer_order:
         "id": 1,
         "name": "water",
         "price": 10.00,
-        "amount": 2,
+        "quantity": 2,
         "salePrice": 8.00,
         "totalPreferentialPrice": 4.00
       }]
@@ -27,7 +27,7 @@ customer_order:
         "id": 1,
         "name": "cola",
         "price": 10.00,
-        "amount": 2,
+        "quantity": 2,
         "salePrice": 10.00,
         "totalPreferentialPrice": 0.00
       }]
