@@ -20,6 +20,8 @@ public class OrderListDto {
 
   private String orderId;
 
+  private BigDecimal primitiveTotalPrice;
+
   private BigDecimal totalPrice;
 
   private OrderStatus status;

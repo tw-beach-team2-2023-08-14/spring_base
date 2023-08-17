@@ -29,14 +29,6 @@ public class OrderFactory {
         .build();
   }
 
-  private static BigDecimal calculateTotalPrice(List<ProductDetail> productDetailList) {
-    return productDetailList.stream()
-        .map(
-            productDetail ->
-                productDetail.getPrice().multiply(BigDecimal.valueOf(productDetail.getAmount())))
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-  }
-
   private static BigDecimal calculateSaleTotalPrice(List<ProductDetail> productDetailList) {
 
     return productDetailList.stream()

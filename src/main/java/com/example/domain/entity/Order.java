@@ -24,6 +24,8 @@ public class Order {
 
   @Builder.Default private String orderId = UUID.randomUUID().toString();
 
+  private BigDecimal primitiveTotalPrice;
+
   private BigDecimal totalPrice;
 
   private OrderStatus status;
@@ -34,4 +36,15 @@ public class Order {
 
   @JsonSerialize(using = ProductDetailSerializer.class)
   private List<ProductDetail> productDetails;
+
+  public void calculatePrimitiveTotalPrice() {
+    this.primitiveTotalPrice =
+        productDetails.stream()
+            .map(
+                productDetail ->
+                    productDetail
+                        .getPrice()
+                        .multiply(BigDecimal.valueOf(productDetail.getAmount())))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
 }

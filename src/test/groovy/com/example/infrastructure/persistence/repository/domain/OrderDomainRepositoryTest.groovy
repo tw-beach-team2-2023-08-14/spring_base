@@ -30,7 +30,7 @@ class OrderDomainRepositoryTest extends Specification {
 
         String productDetailsToSave = objectMapper.writeValueAsString(productDetails)
 
-        Order orderToSave = new Order(null, "consumerId", orderIdToSave, BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
+        Order orderToSave = new Order(null, "consumerId", orderIdToSave, null, BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetails)
 
         OrderPo savedOrderPo = new OrderPo(Integer.valueOf(1), orderIdToSave, "consumerId", BigDecimal.ONE, OrderStatus.CREATED, createTime, updateTime, productDetailsToSave)
 

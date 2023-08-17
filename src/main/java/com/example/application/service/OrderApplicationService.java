@@ -29,8 +29,9 @@ public class OrderApplicationService {
 
   public List<OrderListDto> findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
     return orderRepository.findByCustomerId(customerId).stream()
+        .filter(order -> orderId == null || orderId.equals(order.getOrderId()))
+        .peek(Order::calculatePrimitiveTotalPrice)
         .map(MAPPER::toDto)
-        .filter(orderListDto -> orderId == null || orderId.equals(orderListDto.getOrderId()))
         .toList();
   }
 
