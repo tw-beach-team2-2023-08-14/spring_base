@@ -1,15 +1,15 @@
 package com.example.infrastructure.persistence.repository.domain;
 
 import static com.example.common.exception.BaseExceptionCode.NOT_FOUND_PRODUCT;
-import static com.example.common.exception.NotFoundException.notFoundException;
 
+import com.example.common.exception.ExceptionCode;
+import com.example.common.exception.NotFoundException;
 import com.example.domain.entity.Product;
 import com.example.domain.repository.ProductRepository;
 import com.example.infrastructure.persistence.assembler.ProductDataMapper;
 import com.example.infrastructure.persistence.entity.ProductPo;
 import com.example.infrastructure.persistence.repository.JpaProductRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,17 +26,17 @@ public class ProductDomainRepository implements ProductRepository {
   }
 
   @Override
-  public Product findById(Integer productId) {
-    Optional<ProductPo> productPo = jpaProductRepository.findById(productId);
-    productPo.orElseThrow(notFoundException(NOT_FOUND_PRODUCT));
-    return mapper.toDo(productPo.get());
-  }
-
-  @Override
   public List<Product> findAllByIds(List<Integer> productIds) {
-    return jpaProductRepository.findAllById(productIds).stream()
-        .map(mapper::toDo)
-        .collect(Collectors.toList());
+    List<Product> products =
+        jpaProductRepository.findAllById(productIds).stream()
+            .map(mapper::toDo)
+            .collect(Collectors.toList());
+
+    if (products.size() != productIds.size()) {
+      throw new NotFoundException(ExceptionCode.NOT_FOUND, NOT_FOUND_PRODUCT, "Not found product.");
+    }
+
+    return products;
   }
 
   @Override

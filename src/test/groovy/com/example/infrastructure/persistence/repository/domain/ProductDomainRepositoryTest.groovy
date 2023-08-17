@@ -1,6 +1,7 @@
 package com.example.infrastructure.persistence.repository.domain
 
 
+import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Product
 import com.example.infrastructure.persistence.entity.ProductPo
 import com.example.infrastructure.persistence.repository.JpaProductRepository
@@ -58,11 +59,12 @@ class ProductDomainRepositoryTest extends Specification {
         jpaProductRepository.findAllById(List.of(2)) >> List.of()
 
         when:
-        def result = productDomainRepository.findAllByIds(List.of(2))
+        productDomainRepository.findAllByIds(List.of(2))
 
         then:
-        Assertions.assertThat(result.size() == 0)
+        thrown NotFoundException
     }
+
 
     def "should save product list successfully when update product inventory"() {
         given:
