@@ -16,17 +16,17 @@ class ProductApplicationServiceTest extends Specification {
     def "should return all products"() {
         given:
         List<Product> productList = [
-                new Product(1, "book", BigDecimal.valueOf(10L), null, ProductStatus.VALID, null),
+                new Product(1, "book", BigDecimal.valueOf(10L), null, ProductStatus.VALID, 10),
                 new Product(2, "book2", BigDecimal.valueOf(10L), BigDecimal.valueOf(0.9D), ProductStatus.INVALID, null),
-                new Product(3, "book2", null, BigDecimal.valueOf(0.8D), ProductStatus.VALID, null),
+                new Product(3, "book2", null, BigDecimal.valueOf(0.8D), ProductStatus.VALID, 0),
         ]
 
         productRepository.findAll() >> productList
 
         List<ProductDto> expectedProductList = [
-                new ProductDto(id: 1, name: "book", price: BigDecimal.valueOf(10L), discount: BigDecimal.ONE, salePrice: BigDecimal.valueOf(10).setScale(4, RoundingMode.HALF_UP), status: "VALID"),
-                new ProductDto(id: 2, name: "book2", price: BigDecimal.valueOf(10L), discount: BigDecimal.valueOf(0.9D), salePrice: BigDecimal.valueOf(9).setScale(4, RoundingMode.HALF_UP), status: "INVALID"),
-                new ProductDto(id: 3, name: "book2", price: null, discount: BigDecimal.valueOf(0.8D), salePrice: null, status: "VALID"),
+                new ProductDto(id: 1, name: "book", price: BigDecimal.valueOf(10L), discount: BigDecimal.ONE, salePrice: BigDecimal.valueOf(10).setScale(4, RoundingMode.HALF_UP), status: "VALID", inventory: 10),
+                new ProductDto(id: 2, name: "book2", price: BigDecimal.valueOf(10L), discount: BigDecimal.valueOf(0.9D), salePrice: BigDecimal.valueOf(9).setScale(4, RoundingMode.HALF_UP), status: "INVALID", inventory: null),
+                new ProductDto(id: 3, name: "book2", price: null, discount: BigDecimal.valueOf(0.8D), salePrice: null, status: "VALID", inventory: 0),
         ]
 
         when:

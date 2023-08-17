@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import lombok.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto {
   private Integer id;
 
@@ -16,4 +18,6 @@ public class ProductDto {
   private BigDecimal salePrice;
 
   private String status;
+
+  private Integer inventory;
 }
