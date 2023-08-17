@@ -12,6 +12,6 @@ import org.mapstruct.ReportingPolicy;
 public interface ProductDtoMapper {
   ProductDtoMapper MAPPER = getMapper(ProductDtoMapper.class);
 
-  @Mapping(target = "salePrice", expression = "java(product.calculateDiscount())")
+  @Mapping(target = "salePrice", expression = "java(product.calculateDiscountPricePrice())")
   ProductDto toDto(Product product);
 }

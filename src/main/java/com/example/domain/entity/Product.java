@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class Product {
+  public static final BigDecimal LOWEST_DISCOUNT_PRICE = BigDecimal.valueOf(0.01);
   private Integer id;
 
   private String name;
@@ -36,22 +37,22 @@ public class Product {
     this.price = price;
     this.discount = discount;
     this.status = status;
-    this.salePrice = calculateDiscount();
+    this.salePrice = calculateDiscountPricePrice();
     this.inventory = inventory;
   }
 
-  public BigDecimal calculateDiscount() {
+  public BigDecimal calculateDiscountPricePrice() {
     if (price == null) {
       return null;
     }
     if (discount == null) {
       discount = BigDecimal.ONE;
     }
-    BigDecimal discountPrice = price.multiply(discount).setScale(2, RoundingMode.HALF_UP);
-    if (discountPrice.compareTo(BigDecimal.ZERO) <= 0) {
-      discountPrice = BigDecimal.valueOf(0.01);
+    BigDecimal discountPrice = price.multiply(discount);
+    if (discountPrice.compareTo(LOWEST_DISCOUNT_PRICE) <= 0) {
+      return LOWEST_DISCOUNT_PRICE;
     }
-    return discountPrice;
+    return discountPrice.setScale(2, RoundingMode.HALF_UP);
   }
 
   public Boolean isValid() {
@@ -63,7 +64,7 @@ public class Product {
   }
 
   public ProductDetail toProductDetail(Long amount) {
-    return new ProductDetail(id, name, price, calculateDiscount(), amount);
+    return new ProductDetail(id, name, price, calculateDiscountPricePrice(), amount);
   }
 
   public Boolean hasSufficientInventory(Long quantity) {
