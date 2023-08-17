@@ -32,6 +32,8 @@ class OrderApplicationServiceTest extends Specification {
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, 10)
         productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
+        List<Product> productListToUpdate = List.of(new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, 0))
+
         orderRepository.save(_) >> newOrder
 
         when:
@@ -39,6 +41,7 @@ class OrderApplicationServiceTest extends Specification {
 
         then:
         Assertions.assertThat(result.equals(newOrder))
+        1 * productRepository.updateProductsInventory(productListToUpdate)
     }
 
     def "should throw exception given invalid product in order request"() {

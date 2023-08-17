@@ -1,5 +1,6 @@
 package com.example.domain.entity
 
+import com.example.common.exception.BusinessException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import spock.lang.Specification
@@ -84,5 +85,27 @@ class ProductTest extends Specification {
 
         then:
         assertEquals(productDetail.totalPreferentialPrice, new BigDecimal("3.00"))
+    }
+
+    def "should deduct inventory successfully"() {
+        given:
+        Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
+
+        when:
+        product.deductInventory(7)
+
+        then:
+        assertEquals(0, product.getInventory())
+    }
+
+    def "should throw excetion when inventory is less than deduct amount"() {
+        given:
+        Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
+
+        when:
+        product.deductInventory(8)
+
+        then:
+        thrown(BusinessException)
     }
 }

@@ -1,12 +1,14 @@
 package com.example.domain.entity;
 
+import static com.example.common.exception.BaseExceptionCode.INSUFFICIENT_PRODUCT;
+
+import com.example.common.exception.BusinessException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import lombok.*;
 
-@Getter
-@Setter
 @NoArgsConstructor
+@Data
 public class Product {
   private Integer id;
 
@@ -76,5 +78,13 @@ public class Product {
       return false;
     }
     return inventory >= quantity.intValue();
+  }
+
+  public void deductInventory(Integer deductAmount) {
+    if (deductAmount > inventory) {
+      throw new BusinessException(
+          INSUFFICIENT_PRODUCT, "Product of id [" + id + "] is insufficient");
+    }
+    setInventory(inventory - deductAmount);
   }
 }
