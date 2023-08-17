@@ -3,7 +3,7 @@ echo "*****Running unit tests******"
 
 git stash -q --keep-index
 
-./gradlew clean build
+./gradlew check
 
 status=$?
 
