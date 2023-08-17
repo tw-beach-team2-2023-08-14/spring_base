@@ -64,10 +64,8 @@ public class Product {
   }
 
   public ProductDetail toProductDetail(Integer quantity) {
-    return new ProductDetail(
-        id, name, price, calculateDiscountPricePrice(), quantity);
+    return new ProductDetail(id, name, price, calculateDiscountPricePrice(), quantity);
   }
-
 
   public Boolean hasSufficientInventory(Integer quantity) {
     if (inventory == null || inventory <= 0) {
