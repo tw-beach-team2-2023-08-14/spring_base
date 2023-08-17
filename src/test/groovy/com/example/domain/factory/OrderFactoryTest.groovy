@@ -36,7 +36,7 @@ class OrderFactoryTest extends Specification {
         Integer PRODUCT_ID_ONE = 1
         Long QUANTITY = 5L
         Product product = new Product(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, null, ProductStatus.VALID, 10)
-        ProductDetail expectedResult = new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.TEN.setScale(4), new BigDecimal("0.0000"), QUANTITY)
+        ProductDetail expectedResult = new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, new BigDecimal("10.00"), new BigDecimal("0.00"), QUANTITY)
 
         when:
         ProductDetail result = OrderFactory.extractProductDetailFromProduct(product, QUANTITY)

@@ -17,7 +17,7 @@ class ProductTest extends Specification {
         BigDecimal calculatedPrice = product.salePrice
 
         then:
-        assertEquals(BigDecimal.valueOf(8).setScale(4), calculatedPrice)
+        assertEquals(new BigDecimal("8.00"), calculatedPrice)
     }
 
     def "should return null when having illegal price"() {
@@ -39,7 +39,7 @@ class ProductTest extends Specification {
         BigDecimal calculatedPrice = product.salePrice
 
         then:
-        assertEquals(BigDecimal.valueOf(10).setScale(4), calculatedPrice)
+        assertEquals(new BigDecimal("10.00"), calculatedPrice)
     }
 
     def "should return true when has sufficient stock"() {
@@ -83,6 +83,6 @@ class ProductTest extends Specification {
         ProductDetail productDetail = product.toProductDetail(3)
 
         then:
-        assertEquals(productDetail.totalPreferentialPrice, new BigDecimal("3.0000"))
+        assertEquals(productDetail.totalPreferentialPrice, new BigDecimal("3.00"))
     }
 }

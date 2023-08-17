@@ -45,8 +45,11 @@ public class Product {
     if (discount == null) {
       discount = BigDecimal.ONE;
     }
-    BigDecimal multiply = price.multiply(discount);
-    return multiply.setScale(4, RoundingMode.HALF_UP);
+    BigDecimal discountPrice = price.multiply(discount).setScale(2, RoundingMode.HALF_UP);
+    if (discountPrice.compareTo(BigDecimal.ZERO) <= 0) {
+      discountPrice = BigDecimal.valueOf(0.01);
+    }
+    return discountPrice;
   }
 
   public Boolean isValid() {
