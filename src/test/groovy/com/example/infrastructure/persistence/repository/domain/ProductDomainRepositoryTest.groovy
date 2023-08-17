@@ -63,4 +63,24 @@ class ProductDomainRepositoryTest extends Specification {
         then:
         Assertions.assertThat(result.size() == 0)
     }
+
+    def "should save product list successfully when update product inventory"() {
+        given:
+        List<ProductPo> productPoList = List.of(
+                new ProductPo(id: 1, name: "book1", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10),
+                new ProductPo(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10000)
+        )
+        jpaProductRepository.saveAll(productPoList) >> productPoList
+
+        List<Product> productList = List.of(
+                new Product(id: 1, name: "book1", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10),
+                new Product(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10000)
+        )
+
+        when:
+        def result = productDomainRepository.updateProductsInventory(productList)
+        then:
+        Assertions.assertThat(productList).usingRecursiveComparison().ignoringCollectionOrder().isEqualTo(result)
+
+    }
 }

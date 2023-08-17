@@ -38,4 +38,10 @@ public class ProductDomainRepository implements ProductRepository {
         .map(mapper::toDo)
         .collect(Collectors.toList());
   }
+
+  @Override
+  public List<Product> updateProductsInventory(List<Product> products) {
+    List<ProductPo> productPoList = products.stream().map(mapper::toPo).toList();
+    return jpaProductRepository.saveAll(productPoList).stream().map(mapper::toDo).toList();
+  }
 }

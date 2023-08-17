@@ -9,4 +9,6 @@ public interface ProductRepository {
   Product findById(Integer productId);
 
   List<Product> findAllByIds(List<Integer> productIds);
+
+  List<Product> updateProductsInventory(List<Product> products);
 }
