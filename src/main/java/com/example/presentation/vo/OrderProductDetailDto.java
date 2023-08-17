@@ -17,5 +17,7 @@ public class OrderProductDetailDto {
 
   private BigDecimal price;
 
+  private BigDecimal salePrice;
+
   private Long amount;
 }
