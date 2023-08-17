@@ -10,8 +10,9 @@ customer_order:
       [{
         "id": 1,
         "name": "water",
-        "price": 10,
-        "amount": 2
+        "price": 10.00,
+        "amount": 2,
+        "salePrice": 8.00
       }]
   - id: 2
     customer_id: dcabcfac-6b08-47cd-883a-76c5dc366d88
@@ -24,6 +25,7 @@ customer_order:
       [{
         "id": 1,
         "name": "cola",
-        "price": 10,
-        "amount": 2
+        "price": 10.00,
+        "amount": 2,
+        "salePrice": 10.00
       }]
