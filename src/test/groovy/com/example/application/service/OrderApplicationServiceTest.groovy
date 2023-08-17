@@ -36,7 +36,7 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderProductReqDto> orderProducts = List.of(new OrderProductReqDto(PRODUCT_ID, QUANTITY))
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
-        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, null)
+        Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, 10)
         productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
         orderRepository.save(_) >> newOrder

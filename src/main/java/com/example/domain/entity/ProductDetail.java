@@ -3,9 +3,9 @@ package com.example.domain.entity;
 import java.math.BigDecimal;
 import lombok.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class ProductDetail {
   private Integer id;
 

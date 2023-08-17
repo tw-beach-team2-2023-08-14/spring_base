@@ -1,5 +1,6 @@
 package com.example.domain.factory;
 
+import static com.example.common.exception.BaseExceptionCode.INSUFFICIENT_PRODUCT;
 import static com.example.common.exception.BaseExceptionCode.INVALID_PRODUCT;
 import static com.example.domain.entity.OrderStatus.CREATED;
 
@@ -49,6 +50,7 @@ public class OrderFactory {
 
   public static ProductDetail extractProductDetailFromProduct(Product product, Long quantity) {
     checkValidStatus(product);
+    checkProductInventory(product, quantity);
     return product.toProductDetail(quantity);
   }
 
@@ -56,6 +58,13 @@ public class OrderFactory {
     if (!(product.isValid() && product.isValidPrice())) {
       throw new BusinessException(
           INVALID_PRODUCT, "Product of id [" + product.getId() + "] is invalid");
+    }
+  }
+
+  private static void checkProductInventory(Product product, Long quantity) {
+    if (!product.hasSufficientInventory(quantity)) {
+      throw new BusinessException(
+          INSUFFICIENT_PRODUCT, "Product of id [" + product.getId() + "] is insufficient");
     }
   }
 }
