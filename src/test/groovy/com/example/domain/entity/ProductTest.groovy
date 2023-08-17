@@ -74,4 +74,15 @@ class ProductTest extends Specification {
         then:
         assertEquals(false, hasSufficientStock)
     }
+
+    def "should return product detail totalPreferentialPrice when give amount"() {
+        given:
+        Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
+
+        when:
+        ProductDetail productDetail = product.toProductDetail(3)
+
+        then:
+        assertEquals(productDetail.totalPreferentialPrice, new BigDecimal("3.0000"))
+    }
 }

@@ -20,4 +20,6 @@ public class OrderProductDetailDto {
   private BigDecimal salePrice;
 
   private Long amount;
+
+  private BigDecimal totalPreferentialPrice;
 }

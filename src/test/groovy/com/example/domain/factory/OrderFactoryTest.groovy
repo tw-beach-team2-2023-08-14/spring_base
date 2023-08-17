@@ -18,8 +18,8 @@ class OrderFactoryTest extends Specification {
         Integer PRODUCT_ID_TWO = 2
         Long QUANTITY = 10L
         List<ProductDetail> productDetails = List.of(
-                new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.valueOf(9D), QUANTITY),
-                new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, BigDecimal.valueOf(9D), QUANTITY)
+                new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.valueOf(9D), BigDecimal.TEN, QUANTITY),
+                new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, BigDecimal.valueOf(9D), BigDecimal.TEN, QUANTITY)
         )
 
 
@@ -36,7 +36,7 @@ class OrderFactoryTest extends Specification {
         Integer PRODUCT_ID_ONE = 1
         Long QUANTITY = 5L
         Product product = new Product(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, null, ProductStatus.VALID, 10)
-        ProductDetail expectedResult = new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.TEN.setScale(4), QUANTITY)
+        ProductDetail expectedResult = new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.TEN.setScale(4), new BigDecimal("0.0000"), QUANTITY)
 
         when:
         ProductDetail result = OrderFactory.extractProductDetailFromProduct(product, QUANTITY)
@@ -64,8 +64,8 @@ class OrderFactoryTest extends Specification {
         Integer PRODUCT_ID_TWO = 2
         Long QUANTITY = 10L
         List<ProductDetail> productDetails = List.of(
-                new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.TEN, QUANTITY),
-                new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, BigDecimal.TEN, QUANTITY)
+                new ProductDetail(PRODUCT_ID_ONE, "testProductOne", BigDecimal.TEN, BigDecimal.TEN, BigDecimal.ZERO, QUANTITY),
+                new ProductDetail(PRODUCT_ID_TWO, "testProductTwo", BigDecimal.TEN, BigDecimal.TEN, BigDecimal.ZERO, QUANTITY)
         )
         Order expectedOrder = new Order(
                 1,

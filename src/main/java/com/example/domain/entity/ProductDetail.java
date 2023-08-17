@@ -15,5 +15,7 @@ public class ProductDetail {
 
   private BigDecimal salePrice;
 
+  private BigDecimal totalPreferentialPrice;
+
   private Long amount;
 }

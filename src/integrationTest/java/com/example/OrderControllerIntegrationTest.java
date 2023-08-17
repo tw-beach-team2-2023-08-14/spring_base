@@ -32,6 +32,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("[0].createTime", equalTo("2023-08-10T12:35:13"))
         .body("[0].productDetails[0].name", equalTo("water"))
         .body("[0].productDetails[0].salePrice", equalTo(8.00F))
+        .body("[0].productDetails[0].totalPreferentialPrice", equalTo(4.00F))
         .body("[1].id", equalTo(2))
         .body("[1].customerId", equalTo("dcabcfac-6b08-47cd-883a-76c5dc366d88"))
         .body("[1].orderId", equalTo("orderId2"))
@@ -40,6 +41,7 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         .body("[1].createTime", equalTo("2023-08-10T12:35:13"))
         .body("[1].productDetails[0].name", equalTo("cola"))
         .body("[1].productDetails[0].salePrice", equalTo(10.00F))
+        .body("[1].productDetails[0].totalPreferentialPrice", equalTo(0.00F))
         .body("size()", equalTo(2));
   }
 

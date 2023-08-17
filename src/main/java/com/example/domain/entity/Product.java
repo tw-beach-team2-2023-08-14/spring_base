@@ -58,7 +58,14 @@ public class Product {
   }
 
   public ProductDetail toProductDetail(Long amount) {
-    return new ProductDetail(id, name, price, calculateDiscount(), amount);
+    return new ProductDetail(
+        id, name, price, calculateDiscount(), calculateTotalPreferentialPrice(amount), amount);
+  }
+
+  private BigDecimal calculateTotalPreferentialPrice(Long amount) {
+    return price
+        .multiply(BigDecimal.valueOf(amount))
+        .subtract(calculateDiscount().multiply(BigDecimal.valueOf(amount)));
   }
 
   public Boolean hasSufficientInventory(Long quantity) {
