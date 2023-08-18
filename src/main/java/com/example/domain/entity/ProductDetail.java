@@ -1,6 +1,7 @@
 package com.example.domain.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import lombok.*;
 
 @NoArgsConstructor
@@ -32,6 +33,7 @@ public class ProductDetail {
   private BigDecimal calculateTotalPreferentialPrice() {
     return price
         .multiply(BigDecimal.valueOf(quantity))
-        .subtract(salePrice.multiply(BigDecimal.valueOf(quantity)));
+        .subtract(salePrice.multiply(BigDecimal.valueOf(quantity)))
+        .setScale(2, RoundingMode.HALF_UP);
   }
 }

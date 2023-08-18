@@ -3,6 +3,7 @@ package com.example.domain.entity;
 import com.example.domain.util.ProductDetailSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +46,7 @@ public class Order {
                     productDetail
                         .getPrice()
                         .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+            .reduce(BigDecimal.ZERO, BigDecimal::add)
+            .setScale(2, RoundingMode.HALF_UP);
   }
 }

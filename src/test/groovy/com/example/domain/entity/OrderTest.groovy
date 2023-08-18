@@ -24,6 +24,6 @@ class OrderTest extends Specification {
         order.calculatePrimitiveTotalPrice()
 
         then:
-        assertEquals(BigDecimal.valueOf(20), order.primitiveTotalPrice)
+        assertEquals(new BigDecimal("20.00"), order.primitiveTotalPrice)
     }
 }
