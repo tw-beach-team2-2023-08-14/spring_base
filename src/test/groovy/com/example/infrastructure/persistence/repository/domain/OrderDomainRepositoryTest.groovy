@@ -1,5 +1,6 @@
 package com.example.infrastructure.persistence.repository.domain
 
+import com.example.common.exception.BusinessException
 import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
@@ -195,5 +196,17 @@ class OrderDomainRepositoryTest extends Specification {
                 .usingRecursiveComparison()
                 .ignoringCollectionOrder()
                 .isEqualTo(expectedOrder)
+    }
+
+    def "should throw exception given invalid custom id or order id"() {
+        given:
+        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE) >> null
+
+
+        when:
+        orderDomainRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE)
+
+        then:
+        thrown(BusinessException)
     }
 }

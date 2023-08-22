@@ -8,6 +8,7 @@ public enum BaseExceptionCode implements IExceptionCode {
   NOT_FOUND_PRODUCT("Not found product."),
   INVALID_PRODUCT("Invalid product."),
   INSUFFICIENT_PRODUCT("Insufficient product."),
+  NOT_FOUND_ORDER("Not found order."),
 
   NON_EXIST_ORDER("Order does not exist."),
 
