@@ -3,7 +3,7 @@ package com.example.infrastructure.persistence.repository.domain
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.ProductDetail
-
+import com.example.fixture.OrderFixture
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper
 import com.example.infrastructure.persistence.entity.OrderPo
 import com.example.infrastructure.persistence.repository.JpaOrderRepository
@@ -14,8 +14,6 @@ import spock.lang.Specification
 import java.time.LocalDateTime
 
 class OrderDomainRepositoryTest extends Specification {
-
-    public static final String CUSTOMER_ID = "dcabcfac-6b08-47cd-883a-76c5dc366d88"
     JpaOrderRepository jpaOrderRepository = Mock()
     ObjectMapper objectMapper = new ObjectMapper()
     OrderProductDetailsDataMapper orderProductDetailsDataMapper = new OrderProductDetailsDataMapper()
@@ -58,7 +56,7 @@ class OrderDomainRepositoryTest extends Specification {
         List<OrderPo> jpaOrdersList = [
                 new OrderPo(
                         id: 1,
-                        customerId: CUSTOMER_ID,
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
@@ -68,7 +66,7 @@ class OrderDomainRepositoryTest extends Specification {
                 ),
                 new OrderPo(
                         id: 2,
-                        customerId: CUSTOMER_ID,
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
@@ -78,14 +76,14 @@ class OrderDomainRepositoryTest extends Specification {
                 ),
         ]
 
-        jpaOrderRepository.findByCustomerId(CUSTOMER_ID) >> jpaOrdersList
+        jpaOrderRepository.findByCustomerId(OrderFixture.CUSTOMER_ID) >> jpaOrdersList
 
         List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
 
         List<Order> expectedOrder = [
                 new Order(
                         id: 1,
-                        customerId: CUSTOMER_ID,
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
@@ -95,7 +93,7 @@ class OrderDomainRepositoryTest extends Specification {
                 ),
                 new Order(
                         id: 2,
-                        customerId: CUSTOMER_ID,
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "order id",
                         totalPrice: BigDecimal.valueOf(10L),
                         status: OrderStatus.CREATED,
@@ -106,7 +104,7 @@ class OrderDomainRepositoryTest extends Specification {
         ]
 
         when:
-        def result = orderDomainRepository.findByCustomerId(CUSTOMER_ID)
+        def result = orderDomainRepository.findByCustomerId(OrderFixture.CUSTOMER_ID)
 
         then:
         Assertions.assertThat(result)
@@ -118,12 +116,12 @@ class OrderDomainRepositoryTest extends Specification {
     def "should return empty list given customer has no order"() {
         given:
         List<OrderPo> EMPTY_ORDER_PO_LIST = List.of()
-        jpaOrderRepository.findByCustomerId(CUSTOMER_ID) >> EMPTY_ORDER_PO_LIST
+        jpaOrderRepository.findByCustomerId(OrderFixture.CUSTOMER_ID) >> EMPTY_ORDER_PO_LIST
 
         List<Order> EMPTY_ORDER_LIST = List.of()
 
         when:
-        def result = orderDomainRepository.findByCustomerId(CUSTOMER_ID)
+        def result = orderDomainRepository.findByCustomerId(OrderFixture.CUSTOMER_ID)
 
         then:
         Assertions.assertThat(result)

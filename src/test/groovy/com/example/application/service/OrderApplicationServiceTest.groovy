@@ -4,6 +4,7 @@ import com.example.common.exception.BusinessException
 import com.example.domain.entity.*
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
+import com.example.fixture.OrderFixture
 import com.example.presentation.vo.OrderListDto
 import com.example.presentation.vo.OrderProductDetailDto
 import com.example.presentation.vo.OrderProductReqDto
@@ -68,7 +69,6 @@ class OrderApplicationServiceTest extends Specification {
     }
 
 
-
     def "should retrieve order by consumer id"() {
         given:
         List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
@@ -76,7 +76,7 @@ class OrderApplicationServiceTest extends Specification {
         List<Order> OrderDetails = [
                 new Order(
                         id: 1,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "order id",
                         primitiveTotalPrice: new BigDecimal("20.00"),
                         totalPrice: new BigDecimal("10.00"),
@@ -93,7 +93,7 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderListDto> expectedOrderList = [
                 new OrderListDto(
                         id: 1,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "order id",
                         primitiveTotalPrice: new BigDecimal("20.00"),
                         totalPrice: new BigDecimal("10.00"),
@@ -104,7 +104,7 @@ class OrderApplicationServiceTest extends Specification {
         ]
 
         when:
-        def result = orderApplicationService.findOrderByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", null)
+        def result = orderApplicationService.findOrderByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, null)
 
         then:
         Assertions.assertThat(result)
@@ -120,7 +120,7 @@ class OrderApplicationServiceTest extends Specification {
         List<Order> OrderDetails = [
                 new Order(
                         id: 1,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "orderId1",
                         primitiveTotalPrice: new BigDecimal("20.00"),
                         totalPrice: new BigDecimal("10.00"),
@@ -131,7 +131,7 @@ class OrderApplicationServiceTest extends Specification {
                 ),
                 new Order(
                         id: 1,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "orderId2",
                         primitiveTotalPrice: new BigDecimal("20.00"),
                         totalPrice: new BigDecimal("10.00"),
@@ -148,7 +148,7 @@ class OrderApplicationServiceTest extends Specification {
         List<OrderListDto> expectedOrderList = [
                 new OrderListDto(
                         id: 1,
-                        customerId: "dcabcfac-6b08-47cd-883a-76c5dc366d88",
+                        customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "orderId1",
                         primitiveTotalPrice: new BigDecimal("20.00"),
                         totalPrice: new BigDecimal("10.00"),
@@ -159,7 +159,25 @@ class OrderApplicationServiceTest extends Specification {
         ]
 
         when:
-        def result = orderApplicationService.findOrderByCustomerIdAndOrderId("dcabcfac-6b08-47cd-883a-76c5dc366d88", "orderId1")
+        def result = orderApplicationService.findOrderByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, "orderId1")
+
+        then:
+        Assertions.assertThat(result)
+                .usingRecursiveComparison()
+                .ignoringCollectionOrder()
+                .isEqualTo(expectedOrderList)
+    }
+
+    def "should return order list given customer id"() {
+        given:
+        List<Order> OrderList = List.of(OrderFixture.ORDER_ONE, OrderFixture.ORDER_TWO)
+
+        orderRepository.findByCustomerId(OrderFixture.CUSTOMER_ID) >> OrderList
+
+        List<OrderListDto> expectedOrderList = List.of(OrderFixture.ORDER_DTO_ONE, OrderFixture.ORDER_DTO_TWO)
+
+        when:
+        def result = orderApplicationService.findOrderByCustomerId(OrderFixture.CUSTOMER_ID)
 
         then:
         Assertions.assertThat(result)
