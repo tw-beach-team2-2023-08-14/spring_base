@@ -36,12 +36,10 @@ public class OrderApplicationService {
         .toList();
   }
 
-  public List<OrderDto> findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
-    return orderRepository.findByCustomerId(customerId).stream()
-        .filter(order -> orderId == null || orderId.equals(order.getOrderId()))
-        .peek(Order::calculatePrimitiveTotalPrice)
-        .map(MAPPER::toDto)
-        .toList();
+  public OrderDto findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
+    Order order = orderRepository.findByCustomerIdAndOrderId(customerId, orderId);
+    order.calculatePrimitiveTotalPrice();
+    return MAPPER.toDto(order);
   }
 
   @Transactional

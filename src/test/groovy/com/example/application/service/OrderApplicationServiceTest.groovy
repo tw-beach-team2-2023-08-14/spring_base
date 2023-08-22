@@ -68,104 +68,22 @@ class OrderApplicationServiceTest extends Specification {
         thrown(BusinessException)
     }
 
-
-    def "should retrieve order by consumer id"() {
+    def "should return order by order id and customer id when retrieve order"() {
         given:
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
 
-        List<Order> OrderDetails = [
-                new Order(
-                        id: 1,
-                        customerId: OrderFixture.CUSTOMER_ID,
-                        orderId: "order id",
-                        primitiveTotalPrice: new BigDecimal("20.00"),
-                        totalPrice: new BigDecimal("10.00"),
-                        status: OrderStatus.CREATED,
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: productDetailList
-                ),
-        ]
+        Order order = OrderFixture.ORDER_ONE
+        orderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE) >> order
 
-        orderRepository.findByCustomerId(_) >> OrderDetails
-
-        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
-        List<OrderDto> expectedOrderList = [
-                new OrderDto(
-                        id: 1,
-                        customerId: OrderFixture.CUSTOMER_ID,
-                        orderId: "order id",
-                        primitiveTotalPrice: new BigDecimal("20.00"),
-                        totalPrice: new BigDecimal("10.00"),
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        status: OrderStatus.CREATED,
-                        productDetails: orderProductDetails
-                ),
-        ]
+        OrderDto expectedOrderDto = OrderFixture.ORDER_DTO_ONE
 
         when:
-        def result = orderApplicationService.findOrderByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, null)
+        def result = orderApplicationService.findOrderByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE)
 
         then:
         Assertions.assertThat(result)
                 .usingRecursiveComparison()
                 .ignoringCollectionOrder()
-                .isEqualTo(expectedOrderList)
-    }
-
-    def "should filter order by order id and customer id when retrieve order"() {
-        given:
-        List<ProductDetail> productDetailList = [new ProductDetail(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
-
-        List<Order> OrderDetails = [
-                new Order(
-                        id: 1,
-                        customerId: OrderFixture.CUSTOMER_ID,
-                        orderId: "orderId1",
-                        primitiveTotalPrice: new BigDecimal("20.00"),
-                        totalPrice: new BigDecimal("10.00"),
-                        status: OrderStatus.CREATED,
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: productDetailList
-                ),
-                new Order(
-                        id: 1,
-                        customerId: OrderFixture.CUSTOMER_ID,
-                        orderId: "orderId2",
-                        primitiveTotalPrice: new BigDecimal("20.00"),
-                        totalPrice: new BigDecimal("10.00"),
-                        status: OrderStatus.CREATED,
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        productDetails: productDetailList
-                ),
-        ]
-
-        orderRepository.findByCustomerId(_) >> OrderDetails
-
-        List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
-        List<OrderDto> expectedOrderList = [
-                new OrderDto(
-                        id: 1,
-                        customerId: OrderFixture.CUSTOMER_ID,
-                        orderId: "orderId1",
-                        primitiveTotalPrice: new BigDecimal("20.00"),
-                        totalPrice: new BigDecimal("10.00"),
-                        createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
-                        status: OrderStatus.CREATED,
-                        productDetails: orderProductDetails
-                ),
-        ]
-
-        when:
-        def result = orderApplicationService.findOrderByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, "orderId1")
-
-        then:
-        Assertions.assertThat(result)
-                .usingRecursiveComparison()
-                .ignoringCollectionOrder()
-                .isEqualTo(expectedOrderList)
+                .isEqualTo(expectedOrderDto)
     }
 
     def "should return order list given customer id"() {
