@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrderListDto {
+public class OrderDto {
   private Integer id;
 
   private String customerId;

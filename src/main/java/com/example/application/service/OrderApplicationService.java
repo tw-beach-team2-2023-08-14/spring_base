@@ -9,7 +9,7 @@ import com.example.domain.entity.ProductDetail;
 import com.example.domain.factory.OrderFactory;
 import com.example.domain.repository.OrderRepository;
 import com.example.domain.repository.ProductRepository;
-import com.example.presentation.vo.OrderListDto;
+import com.example.presentation.vo.OrderDto;
 import com.example.presentation.vo.OrderProductReqDto;
 import com.example.presentation.vo.OrderReqDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,14 +28,14 @@ public class OrderApplicationService {
 
   private final ProductRepository productRepository;
 
-  public List<OrderListDto> findOrderByCustomerId(String customerId) {
+  public List<OrderDto> findOrderByCustomerId(String customerId) {
     return orderRepository.findByCustomerId(customerId).stream()
         .peek(Order::calculatePrimitiveTotalPrice)
         .map(MAPPER::toDto)
         .toList();
   }
 
-  public List<OrderListDto> findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
+  public List<OrderDto> findOrderByCustomerIdAndOrderId(String customerId, String orderId) {
     return orderRepository.findByCustomerId(customerId).stream()
         .filter(order -> orderId == null || orderId.equals(order.getOrderId()))
         .peek(Order::calculatePrimitiveTotalPrice)

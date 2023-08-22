@@ -5,7 +5,7 @@ import com.example.domain.entity.*
 import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
 import com.example.fixture.OrderFixture
-import com.example.presentation.vo.OrderListDto
+import com.example.presentation.vo.OrderDto
 import com.example.presentation.vo.OrderProductDetailDto
 import com.example.presentation.vo.OrderProductReqDto
 import com.example.presentation.vo.OrderReqDto
@@ -90,8 +90,8 @@ class OrderApplicationServiceTest extends Specification {
         orderRepository.findByCustomerId(_) >> OrderDetails
 
         List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
-        List<OrderListDto> expectedOrderList = [
-                new OrderListDto(
+        List<OrderDto> expectedOrderList = [
+                new OrderDto(
                         id: 1,
                         customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "order id",
@@ -145,8 +145,8 @@ class OrderApplicationServiceTest extends Specification {
         orderRepository.findByCustomerId(_) >> OrderDetails
 
         List<OrderProductDetailDto> orderProductDetails = [new OrderProductDetailDto(id: 1, name: "water", price: BigDecimal.valueOf(10L), quantity: 2)]
-        List<OrderListDto> expectedOrderList = [
-                new OrderListDto(
+        List<OrderDto> expectedOrderList = [
+                new OrderDto(
                         id: 1,
                         customerId: OrderFixture.CUSTOMER_ID,
                         orderId: "orderId1",
@@ -174,7 +174,7 @@ class OrderApplicationServiceTest extends Specification {
 
         orderRepository.findByCustomerId(OrderFixture.CUSTOMER_ID) >> OrderList
 
-        List<OrderListDto> expectedOrderList = List.of(OrderFixture.ORDER_DTO_ONE, OrderFixture.ORDER_DTO_TWO)
+        List<OrderDto> expectedOrderList = List.of(OrderFixture.ORDER_DTO_ONE, OrderFixture.ORDER_DTO_TWO)
 
         when:
         def result = orderApplicationService.findOrderByCustomerId(OrderFixture.CUSTOMER_ID)

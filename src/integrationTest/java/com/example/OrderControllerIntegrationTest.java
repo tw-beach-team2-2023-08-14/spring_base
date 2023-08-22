@@ -46,25 +46,6 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Test
-  @DataSet("retrieve_orders_on_order_table.yml")
-  public void should_retrieve_order_list_by_customer_id_and_order_id_successfully() {
-    given()
-        .when()
-        .get("/orders?customerId=dcabcfac-6b08-47cd-883a-76c5dc366d88&orderId=orderId1")
-        .then()
-        .statusCode(OK.value())
-        .body("[0].id", equalTo(1))
-        .body("[0].customerId", equalTo("dcabcfac-6b08-47cd-883a-76c5dc366d88"))
-        .body("[0].orderId", equalTo("orderId1"))
-        .body("[0].totalPrice", equalTo(20.0F))
-        .body("[0].status", equalTo("CREATED"))
-        .body("[0].createTime", equalTo("2023-08-10T12:35:13"))
-        .body("[0].productDetails[0].name", equalTo("water"))
-        .body("[0].productDetails[0].salePrice", equalTo(8.00F))
-        .body("size()", equalTo(1));
-  }
-
-  @Test
   @DataSet("save_order_successfully.yml")
   public void should_save_order_and_return_order_id_successfully() {
 

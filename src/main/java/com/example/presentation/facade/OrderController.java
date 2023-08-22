@@ -2,7 +2,7 @@ package com.example.presentation.facade;
 
 import com.example.application.service.OrderApplicationService;
 import com.example.domain.entity.OrderCreation;
-import com.example.presentation.vo.OrderListDto;
+import com.example.presentation.vo.OrderDto;
 import com.example.presentation.vo.OrderReqDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
@@ -28,9 +28,7 @@ public class OrderController {
   }
 
   @GetMapping
-  public List<OrderListDto> retrieveOrderList(
-      @RequestParam("customerId") UUID customer_id,
-      @RequestParam(value = "orderId", required = false) String orderId) {
-    return orderApplicationService.findOrderByCustomerIdAndOrderId(customer_id.toString(), orderId);
+  public List<OrderDto> retrieveOrderList(@RequestParam("customerId") UUID customer_id) {
+    return orderApplicationService.findOrderByCustomerId(customer_id.toString());
   }
 }

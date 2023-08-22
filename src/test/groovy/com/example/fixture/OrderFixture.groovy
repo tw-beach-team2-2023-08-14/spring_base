@@ -3,7 +3,7 @@ package com.example.fixture
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.ProductDetail
-import com.example.presentation.vo.OrderListDto
+import com.example.presentation.vo.OrderDto
 
 import java.time.LocalDateTime;
 
@@ -39,7 +39,7 @@ class OrderFixture {
             productDetails: PRODUCT_DETAIL_LIST
     )
 
-    public static final OrderListDto ORDER_DTO_ONE = new OrderListDto(
+    public static final OrderDto ORDER_DTO_ONE = new OrderDto(
             id: 1,
             customerId: OrderFixture.CUSTOMER_ID,
             orderId: OrderFixture.ORDER_ID_ONE,
@@ -50,7 +50,7 @@ class OrderFixture {
             productDetails: PRODUCT_DETAIL_LIST
     )
 
-    public static final OrderListDto ORDER_DTO_TWO = new OrderListDto(
+    public static final OrderDto ORDER_DTO_TWO = new OrderDto(
             id: 2,
             customerId: OrderFixture.CUSTOMER_ID,
             orderId: OrderFixture.ORDER_ID_TWO,
