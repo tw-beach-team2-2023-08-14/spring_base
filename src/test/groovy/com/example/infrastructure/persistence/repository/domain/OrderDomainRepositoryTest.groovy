@@ -129,4 +129,20 @@ class OrderDomainRepositoryTest extends Specification {
                 .ignoringCollectionOrder()
                 .isEqualTo(EMPTY_ORDER_LIST)
     }
+
+    def "should return order given customer id and order id"() {
+        given:
+        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE) >> OrderFixture.ORDER_PO
+        Order expectedOrder = OrderFixture.ORDER_WITHOUT_PRIMITIVE_TOTAL_PRICE
+
+
+        when:
+        def result = orderDomainRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE)
+
+        then:
+        Assertions.assertThat(result)
+                .usingRecursiveComparison()
+                .ignoringCollectionOrder()
+                .isEqualTo(expectedOrder)
+    }
 }

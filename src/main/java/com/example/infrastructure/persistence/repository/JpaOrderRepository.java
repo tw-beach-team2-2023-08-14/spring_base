@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface JpaOrderRepository extends JpaAndQueryDslExecutor<OrderPo, String> {
   List<OrderPo> findByCustomerId(String customerId);
+
+  OrderPo findByCustomerIdAndOrderId(String customerId, String orderId);
 }

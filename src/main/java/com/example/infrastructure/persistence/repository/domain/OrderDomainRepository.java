@@ -25,6 +25,12 @@ public class OrderDomainRepository implements OrderRepository {
   }
 
   @Override
+  public Order findByCustomerIdAndOrderId(String customerId, String orderId) {
+    return orderProductDetailsDataMapper.mapOrderPoToOrder(
+        jpaOrderRepository.findByCustomerIdAndOrderId(customerId, orderId));
+  }
+
+  @Override
   public String save(Order order) throws JsonProcessingException {
     return jpaOrderRepository.save(MAPPER.toPo(order)).getOrderId();
   }
