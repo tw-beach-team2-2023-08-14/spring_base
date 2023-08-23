@@ -1,8 +1,8 @@
 customer_order:
   - id: 1
     customer_id: dcabcfac-6b08-47cd-883a-76c5dc366d88
-    order_id: "orderId1"
-    total_price: 20.00
+    order_id: ad3c8e37-88ea-440a-a7a0-531b829fb5c1
+    total_price: 16.00
     status: "CREATED"
     create_time: "2023-08-10 12:35:13"
     update_time: "2023-08-10 12:35:13"
@@ -17,7 +17,7 @@ customer_order:
       }]
   - id: 2
     customer_id: dcabcfac-6b08-47cd-883a-76c5dc366d88
-    order_id: "orderId2"
+    order_id: ad3c8e37-88ea-440a-a7a0-531b829fb5c2
     total_price: 20.00
     status: "CREATED"
     create_time: "2023-08-10 12:35:13"

@@ -8,12 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -30,5 +25,12 @@ public class OrderController {
   @GetMapping
   public List<OrderDto> retrieveOrderList(@RequestParam("customerId") UUID customer_id) {
     return orderApplicationService.findOrderByCustomerId(customer_id.toString());
+  }
+
+  @GetMapping("/{orderId}")
+  public OrderDto retrieveOrder(
+      @PathVariable("orderId") String order_id, @RequestParam("customerId") UUID customer_id) {
+    return orderApplicationService.findOrderByCustomerIdAndOrderId(
+        customer_id.toString(), order_id);
   }
 }
