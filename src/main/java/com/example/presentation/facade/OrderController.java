@@ -23,14 +23,14 @@ public class OrderController {
   }
 
   @GetMapping
-  public List<OrderDto> retrieveOrderList(@RequestParam("customerId") UUID customer_id) {
-    return orderApplicationService.findOrderByCustomerId(customer_id.toString());
+  public List<OrderDto> retrieveOrderList(@RequestParam("customerId") UUID customerId) {
+    return orderApplicationService.findOrderByCustomerId(customerId.toString());
   }
 
   @GetMapping("/{orderId}")
   public OrderDto retrieveOrder(
-      @PathVariable("orderId") String order_id, @RequestParam("customerId") UUID customer_id) {
+          @PathVariable("orderId") String orderId, @RequestParam("customerId") UUID customerId) {
     return orderApplicationService.findOrderByCustomerIdAndOrderId(
-        customer_id.toString(), order_id);
+        customerId.toString(), orderId);
   }
 }
