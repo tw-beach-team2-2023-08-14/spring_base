@@ -1,5 +1,6 @@
 package com.example.infrastructure.persistence.repository.domain
 
+import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
 import com.example.domain.entity.ProductDetail
@@ -130,14 +131,64 @@ class OrderDomainRepositoryTest extends Specification {
                 .isEqualTo(EMPTY_ORDER_LIST)
     }
 
-    def "should return order given customer id and order id"() {
+    def "should return order with correct order id"() {
         given:
-        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE) >> OrderFixture.ORDER_PO
-        Order expectedOrder = OrderFixture.ORDER_WITHOUT_PRIMITIVE_TOTAL_PRICE
 
+        Optional<OrderPo> optionalOrderPo = Optional.of(new OrderPo(
+                id: 1,
+                customerId: OrderFixture.CUSTOMER_ID,
+                orderId: "order id",
+                totalPrice: BigDecimal.valueOf(10L),
+                status: OrderStatus.CREATED,
+                createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+                updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+                productDetails: OrderFixture.JSON_STRING.toString()
+        ))
+
+        Order expectedOrder = new Order(
+                id: 1,
+                customerId: OrderFixture.CUSTOMER_ID,
+                orderId: "order id",
+                totalPrice: BigDecimal.valueOf(10L),
+                status: OrderStatus.CREATED,
+                createTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+                updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
+                productDetails: OrderFixture.PRODUCT_DETAIL_LIST
+        )
+
+        jpaOrderRepository.lockAndFindByOrderId("order id") >> optionalOrderPo
 
         when:
-        def result = orderDomainRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE)
+        def result = orderDomainRepository.lockAndFindByOrderId("order id")
+
+        then:
+        Assertions.assertThat(result)
+                .usingRecursiveComparison()
+                .isEqualTo(expectedOrder)
+
+    }
+
+    def "should throw exception when order id not exist"() {
+        given:
+
+        Optional<OrderPo> optionalOrderPo = Optional.empty()
+
+        jpaOrderRepository.lockAndFindByOrderId("order id") >> optionalOrderPo
+
+        when:
+        def result = orderDomainRepository.lockAndFindByOrderId("order id")
+
+        then:
+        thrown(NotFoundException)
+    }
+
+    def "should return order given customer id and order id"() {
+        given:
+        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE) >> OrderFixture.ORDER_PO
+        Order expectedOrder = OrderFixture.ORDER_WITHOUT_PRIMITIVE_TOTAL_PRICE
+
+        when:
+        def result = orderDomainRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE)
 
         then:
         Assertions.assertThat(result)

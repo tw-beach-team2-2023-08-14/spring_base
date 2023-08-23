@@ -9,5 +9,7 @@ public interface OrderRepository {
 
   Order findByCustomerIdAndOrderId(String customerId, String orderId);
 
+  Order lockAndFindByOrderId(String orderId);
+
   String save(Order order) throws JsonProcessingException;
 }

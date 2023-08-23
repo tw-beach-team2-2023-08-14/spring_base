@@ -2,6 +2,8 @@ package com.example.infrastructure.persistence.repository.domain;
 
 import static com.example.infrastructure.persistence.assembler.OrderDataMapper.MAPPER;
 
+import com.example.common.exception.ExceptionCode;
+import com.example.common.exception.NotFoundException;
 import com.example.domain.entity.Order;
 import com.example.domain.repository.OrderRepository;
 import com.example.infrastructure.persistence.assembler.OrderProductDetailsDataMapper;
@@ -22,6 +24,13 @@ public class OrderDomainRepository implements OrderRepository {
     return jpaOrderRepository.findByCustomerId(customerId).stream()
         .map(orderProductDetailsDataMapper::mapOrderPoToOrder)
         .toList();
+  }
+
+  public Order lockAndFindByOrderId(String orderId) {
+    return jpaOrderRepository
+        .lockAndFindByOrderId(orderId)
+        .map(orderProductDetailsDataMapper::mapOrderPoToOrder)
+        .orElseThrow(() -> new NotFoundException(ExceptionCode.NOT_FOUND, "Not found Order."));
   }
 
   @Override

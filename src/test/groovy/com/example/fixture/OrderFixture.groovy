@@ -102,6 +102,18 @@ class OrderFixture {
             productDetails: PRODUCT_DETAIL_LIST
     )
 
+    public static final String JSON_STRING =
+            ''' [{
+                         "id": 1,
+                         "name": "water",
+                         "price": 10.00,
+                         "salePrice": 9.00,
+                         "totalPreferentialPrice":2.00,
+                         "quantity": 2
+                     }]
+                '''
+
+
     static Order.OrderBuilder orderBuilder() {
         return Order.builder()
                 .id(1)
