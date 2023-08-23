@@ -183,7 +183,8 @@ class OrderDomainRepositoryTest extends Specification {
 
     def "should return order given customer id and order id"() {
         given:
-        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE) >> OrderFixture.ORDER_PO
+        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE) >>
+                Optional.of(OrderFixture.ORDER_PO)
         Order expectedOrder = OrderFixture.ORDER_WITHOUT_PRIMITIVE_TOTAL_PRICE
 
         when:
@@ -195,7 +196,7 @@ class OrderDomainRepositoryTest extends Specification {
 
     def "should throw exception given invalid custom id or order id"() {
         given:
-        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE) >> null
+        jpaOrderRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID,OrderFixture.ORDER_ID_ONE) >> Optional.empty()
 
 
         when:
