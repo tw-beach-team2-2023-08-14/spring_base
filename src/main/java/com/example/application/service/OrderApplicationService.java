@@ -15,6 +15,7 @@ import com.example.presentation.vo.OrderReqDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,14 @@ public class OrderApplicationService {
     return new OrderCreation(orderRepository.save(order));
   }
 
+  @Transactional
+  public void cancelOrder(String customerId, String orderId) throws JsonProcessingException {
+    Order order = orderRepository.lockAndFindByOrderId(orderId);
+    order.cancel(customerId);
+    orderRepository.save(order);
+    incrementProductInventory(order);
+  }
+
   private void updateInventory(List<Product> products, Map<Integer, Integer> productIdQuantityMap) {
     products.forEach(
         (product) -> product.updateInventory(productIdQuantityMap.get(product.getId())));
@@ -83,5 +92,25 @@ public class OrderApplicationService {
             Collectors.toMap(
                 OrderProductReqDto::getProductId,
                 (orderProductDto) -> Math.negateExact(orderProductDto.getQuantity())));
+  }
+
+  private void incrementProductInventory(Order order) {
+    List<ProductDetail> productDetails = order.getProductDetails();
+    List<Integer> orderProductIds = getPropertyList(productDetails, ProductDetail::getId);
+    List<Product> products = productRepository.lockAndFindAllByIds(orderProductIds);
+
+    Map<Integer, Integer> productIdQuantityMap =
+        listToMap(productDetails, ProductDetail::getId, ProductDetail::getQuantity);
+
+    updateInventory(products, productIdQuantityMap);
+  }
+
+  private static <K, T, J> Map<K, J> listToMap(
+      List<T> list, Function<T, K> keyExtractor, Function<T, J> valueExtractor) {
+    return list.stream().collect(Collectors.toMap(keyExtractor, valueExtractor));
+  }
+
+  private static <K, T> List<T> getPropertyList(List<K> list, Function<K, T> propertyExtractor) {
+    return list.stream().map(propertyExtractor).toList();
   }
 }

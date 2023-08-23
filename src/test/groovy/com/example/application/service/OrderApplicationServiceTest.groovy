@@ -185,4 +185,48 @@ class OrderApplicationServiceTest extends Specification {
                 .ignoringCollectionOrder()
                 .isEqualTo(expectedOrderList)
     }
+
+    def "should cancel order successfully when order fetched with valid status"() {
+        given:
+        Integer PRODUCT_ID = 11
+        def productDetailList =
+                List.of(
+                        OrderFixture.productDetailBuilder()
+                                .id(PRODUCT_ID)
+                                .quantity(2)
+                                .build()
+                )
+
+        def order = OrderFixture
+                .orderBuilder()
+                .productDetails(productDetailList)
+                .build()
+
+        def cancelledOrder = OrderFixture.orderBuilder()
+                .productDetails(productDetailList)
+                .status(OrderStatus.CANCELLED)
+                .build()
+
+        orderRepository.lockAndFindByOrderId(_) >> order
+
+        def productList = List.of(OrderFixture
+                .productBuilder()
+                .id(PRODUCT_ID)
+                .inventory(10).build())
+        productRepository.lockAndFindAllByIds(_) >> productList
+
+        def updatedProductList = List.of(OrderFixture
+                .productBuilder()
+                .id(PRODUCT_ID)
+                .inventory(12)
+                .build())
+
+        when:
+        orderApplicationService.cancelOrder(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE)
+
+        then:
+        1 * orderRepository.save(cancelledOrder)
+        1 * productRepository.updateProductsInventory(updatedProductList)
+    }
+
 }
