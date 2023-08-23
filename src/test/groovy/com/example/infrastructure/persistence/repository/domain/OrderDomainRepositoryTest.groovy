@@ -178,7 +178,7 @@ class OrderDomainRepositoryTest extends Specification {
         orderDomainRepository.lockAndFindByOrderId("order id")
 
         then:
-        thrown(NotFoundException)
+        thrown(BusinessException)
     }
 
     def "should return order given customer id and order id"() {

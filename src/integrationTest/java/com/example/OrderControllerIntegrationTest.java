@@ -2,10 +2,10 @@ package com.example;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import java.util.List;
@@ -127,5 +127,40 @@ public class OrderControllerIntegrationTest extends BaseIntegrationTest {
         given().contentType(ContentType.JSON).body(orderReqBody).when().post("/orders");
     Assertions.assertEquals(OK.value(), response.statusCode());
     Assertions.assertNotNull(response.body());
+  }
+
+  @Test
+  @DataSet("cancel_order.yml")
+  @ExpectedDataSet(value = "expect_after_cancel.yml", ignoreCols = "update_time")
+  public void should_cancel_order_successfully() {
+    given()
+        .when()
+        .patch("/orders/orderId1?customerId=%s".formatted(CUSTOMER_ID_ONE))
+        .then()
+        .statusCode(OK.value());
+  }
+
+  @Test
+  @DataSet("cancel_order.yml")
+  public void should_return_409_when_customer_id_not_match() {
+    given()
+        .when()
+        .patch("/orders/orderId1?customerId=%s".formatted(ORDER_ID_TWO))
+        .then()
+        .statusCode(CONFLICT.value())
+        .body("detail", equalTo("Customer id not match."))
+        .body("instance", equalTo("/orders/orderId1"));
+  }
+
+  @Test
+  @DataSet("cancel_order.yml")
+  public void should_return_404_when_order_does_not_exist() {
+    given()
+        .when()
+        .patch("/orders/orderIdDoesNotExist?customerId=%s".formatted(CUSTOMER_ID_ONE))
+        .then()
+        .statusCode(NOT_FOUND.value())
+        .body("detail", equalTo("Order does not exist."))
+        .body("instance", equalTo("/orders/orderIdDoesNotExist"));
   }
 }

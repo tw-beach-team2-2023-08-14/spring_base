@@ -32,4 +32,11 @@ public class OrderController {
       @PathVariable("orderId") String orderId, @RequestParam("customerId") UUID customerId) {
     return orderApplicationService.findOrderByCustomerIdAndOrderId(customerId.toString(), orderId);
   }
+
+  @PatchMapping("/{orderId}")
+  public void cancelOrder(
+      @RequestParam("customerId") UUID customer_id, @PathVariable(value = "orderId") String orderId)
+      throws JsonProcessingException {
+    orderApplicationService.cancelOrder(customer_id.toString(), orderId);
+  }
 }
