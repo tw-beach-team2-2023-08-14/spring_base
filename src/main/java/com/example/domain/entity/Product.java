@@ -9,6 +9,8 @@ import lombok.*;
 
 @NoArgsConstructor
 @Data
+@AllArgsConstructor
+@Builder
 public class Product {
   public static final BigDecimal LOWEST_DISCOUNT_PRICE = BigDecimal.valueOf(0.01);
   private Integer id;
@@ -74,11 +76,12 @@ public class Product {
     return inventory >= quantity;
   }
 
-  public void deductInventory(Integer deductAmount) {
-    if (deductAmount > inventory) {
+  public void updateInventory(Integer updateAmount) {
+    int newInventory = inventory + updateAmount;
+    if (newInventory < 0) {
       throw new BusinessException(
           INSUFFICIENT_PRODUCT, "Product of id [" + id + "] is insufficient");
     }
-    setInventory(inventory - deductAmount);
+    setInventory(newInventory);
   }
 }

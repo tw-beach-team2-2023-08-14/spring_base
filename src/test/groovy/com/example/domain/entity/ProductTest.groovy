@@ -87,25 +87,37 @@ class ProductTest extends Specification {
         assertEquals(productDetail.totalPreferentialPrice, new BigDecimal("3.00"))
     }
 
-    def "should deduct inventory successfully"() {
+    def "should update inventory successfully"() {
         given:
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
 
         when:
-        product.deductInventory(7)
+        product.updateInventory(-7)
 
         then:
         assertEquals(0, product.getInventory())
     }
 
-    def "should throw excetion when inventory is less than deduct amount"() {
+    def "should throw exception when inventory is less than deduct amount"() {
         given:
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
 
         when:
-        product.deductInventory(8)
+        product.updateInventory(-8)
 
         then:
         thrown(BusinessException)
     }
+
+    def "should update inventory successfully with positive value"() {
+        given:
+        Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
+
+        when:
+        product.updateInventory(10)
+
+        then:
+        assertEquals(17, product.getInventory())
+    }
+
 }

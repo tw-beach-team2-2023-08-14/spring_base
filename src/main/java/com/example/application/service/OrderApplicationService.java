@@ -62,7 +62,7 @@ public class OrderApplicationService {
 
   private void updateInventory(List<Product> products, Map<Integer, Integer> productIdQuantityMap) {
     products.forEach(
-        (product) -> product.deductInventory(productIdQuantityMap.get(product.getId())));
+        (product) -> product.updateInventory(productIdQuantityMap.get(product.getId())));
     productRepository.updateProductsInventory(products);
   }
 
@@ -80,6 +80,8 @@ public class OrderApplicationService {
       List<OrderProductReqDto> orderProductDtoList) {
     return orderProductDtoList.stream()
         .collect(
-            Collectors.toMap(OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity));
+            Collectors.toMap(
+                OrderProductReqDto::getProductId,
+                (orderProductDto) -> Math.negateExact(orderProductDto.getQuantity())));
   }
 }
