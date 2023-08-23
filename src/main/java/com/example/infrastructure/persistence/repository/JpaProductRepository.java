@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 
 public interface JpaProductRepository extends JpaAndQueryDslExecutor<ProductPo, Integer> {
-  @Query(
-      nativeQuery = true,
-      value = "select * from customer_order where order_id in :orderIds for update")
-  List<ProductPo> lockAndFindAllByIds(List<Integer> orderIds);
+  @Query(nativeQuery = true, value = "select * from product where id in :productIds for update")
+  List<ProductPo> lockAndFindAllByIds(List<Integer> productIds);
 }
