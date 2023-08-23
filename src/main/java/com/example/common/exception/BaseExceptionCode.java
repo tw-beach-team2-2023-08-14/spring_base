@@ -1,6 +1,7 @@
 package com.example.common.exception;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 public enum BaseExceptionCode implements IExceptionCode {
@@ -10,17 +11,23 @@ public enum BaseExceptionCode implements IExceptionCode {
   INSUFFICIENT_PRODUCT("Insufficient product."),
   NOT_FOUND_ORDER("Not found order."),
 
-  NON_EXIST_ORDER("Order does not exist."),
+  NON_EXIST_ORDER("Order does not exist.", HttpStatus.NOT_FOUND),
 
-  INVALID_ORDER_STATUS("Order already in cancelled stage."),
+  INVALID_ORDER_STATUS("Order already in cancelled stage.", HttpStatus.CONFLICT),
 
-  CONFLICT("Order already in cancelled stage.");
+  INVALID_CONSUMER_ID("Customer id not match.", HttpStatus.CONFLICT);
 
   BaseExceptionCode(String enMsg) {
     this.enMsg = enMsg;
   }
 
-  String enMsg;
+  BaseExceptionCode(String enMsg, HttpStatus code) {
+    this.enMsg = enMsg;
+    this.code = code;
+  }
+
+  final String enMsg;
+  HttpStatus code;
 
   @Override
   public String getValue() {

@@ -21,4 +21,9 @@ public class GlobalControllerExceptionHandler {
   public ResponseEntity<String> handleBookNotFound(RuntimeException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler(BusinessException.class)
+  public BusinessException handleBusinessException(BusinessException ex) {
+    return ex;
+  }
 }

@@ -1,6 +1,6 @@
 package com.example.domain.entity;
 
-import static com.example.common.exception.BaseExceptionCode.CONFLICT;
+import static com.example.common.exception.BaseExceptionCode.INVALID_CONSUMER_ID;
 import static com.example.common.exception.BaseExceptionCode.INVALID_ORDER_STATUS;
 import static com.example.domain.entity.OrderStatus.CANCELLED;
 
@@ -64,6 +64,6 @@ public class Order {
 
   private void checkOrderBelonging(String customerId) {
     if (!customerId.equals(this.customerId))
-      throw new BusinessException(CONFLICT, "Customer id not match.");
+      throw new BusinessException(INVALID_CONSUMER_ID, "Customer id not match.");
   }
 }
