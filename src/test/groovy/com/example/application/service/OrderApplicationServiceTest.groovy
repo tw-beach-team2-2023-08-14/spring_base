@@ -38,7 +38,7 @@ class OrderApplicationServiceTest extends Specification {
         orderRepository.save(_) >> newOrder
 
         when:
-        String result = orderApplicationService.createOrder(orderReqDto)
+        OrderCreation result = orderApplicationService.createOrder(orderReqDto)
 
         then:
         Assertions.assertThat(result.equals(newOrder))
@@ -80,10 +80,7 @@ class OrderApplicationServiceTest extends Specification {
         def result = orderApplicationService.findOrderByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE)
 
         then:
-        Assertions.assertThat(result)
-                .usingRecursiveComparison()
-                .ignoringCollectionOrder()
-                .isEqualTo(expectedOrderDto)
+        Assertions.assertThat(result).isEqualTo(expectedOrderDto)
     }
 
     def "should return order list given customer id"() {

@@ -41,7 +41,7 @@ class OrderDomainRepositoryTest extends Specification {
         def orderId = orderDomainRepository.save(orderToSave)
 
         then:
-        Assertions.assertThat(orderId).usingRecursiveComparison().isEqualTo(orderIdToSave)
+        Assertions.assertThat(orderId).isEqualTo(orderIdToSave)
     }
 
 
@@ -163,9 +163,7 @@ class OrderDomainRepositoryTest extends Specification {
         def result = orderDomainRepository.lockAndFindByOrderId("order id")
 
         then:
-        Assertions.assertThat(result)
-                .usingRecursiveComparison()
-                .isEqualTo(expectedOrder)
+        Assertions.assertThat(result).isEqualTo(expectedOrder)
 
     }
 
@@ -177,7 +175,7 @@ class OrderDomainRepositoryTest extends Specification {
         jpaOrderRepository.lockAndFindByOrderId("order id") >> optionalOrderPo
 
         when:
-        def result = orderDomainRepository.lockAndFindByOrderId("order id")
+        orderDomainRepository.lockAndFindByOrderId("order id")
 
         then:
         thrown(NotFoundException)
@@ -192,10 +190,7 @@ class OrderDomainRepositoryTest extends Specification {
         def result = orderDomainRepository.findByCustomerIdAndOrderId(OrderFixture.CUSTOMER_ID, OrderFixture.ORDER_ID_ONE)
 
         then:
-        Assertions.assertThat(result)
-                .usingRecursiveComparison()
-                .ignoringCollectionOrder()
-                .isEqualTo(expectedOrder)
+        Assertions.assertThat(result).isEqualTo(expectedOrder)
     }
 
     def "should throw exception given invalid custom id or order id"() {

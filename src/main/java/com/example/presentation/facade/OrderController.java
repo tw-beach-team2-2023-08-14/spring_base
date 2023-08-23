@@ -29,8 +29,7 @@ public class OrderController {
 
   @GetMapping("/{orderId}")
   public OrderDto retrieveOrder(
-          @PathVariable("orderId") String orderId, @RequestParam("customerId") UUID customerId) {
-    return orderApplicationService.findOrderByCustomerIdAndOrderId(
-        customerId.toString(), orderId);
+      @PathVariable("orderId") String orderId, @RequestParam("customerId") UUID customerId) {
+    return orderApplicationService.findOrderByCustomerIdAndOrderId(customerId.toString(), orderId);
   }
 }
