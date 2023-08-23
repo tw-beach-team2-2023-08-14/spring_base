@@ -8,5 +8,7 @@ public interface ProductRepository {
 
   List<Product> findAllByIds(List<Integer> productIds);
 
+  List<Product> lockAndFindAllByIds(List<Integer> productIds);
+
   List<Product> updateProductsInventory(List<Product> products);
 }

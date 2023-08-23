@@ -44,4 +44,9 @@ public class ProductDomainRepository implements ProductRepository {
     List<ProductPo> productPoList = products.stream().map(mapper::toPo).toList();
     return jpaProductRepository.saveAll(productPoList).stream().map(mapper::toDo).toList();
   }
+
+  @Override
+  public List<Product> lockAndFindAllByIds(List<Integer> productIds) {
+    return jpaProductRepository.lockAndFindAllByIds(productIds).stream().map(mapper::toDo).toList();
+  }
 }

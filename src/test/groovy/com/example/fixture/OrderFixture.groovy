@@ -2,7 +2,9 @@ package com.example.fixture
 
 import com.example.domain.entity.Order
 import com.example.domain.entity.OrderStatus
+import com.example.domain.entity.Product
 import com.example.domain.entity.ProductDetail
+import com.example.domain.entity.ProductStatus
 import com.example.infrastructure.persistence.entity.OrderPo
 import com.example.presentation.vo.OrderDto
 import com.example.presentation.vo.OrderProductDetailDto
@@ -113,7 +115,6 @@ class OrderFixture {
                      }]
                 '''
 
-
     static Order.OrderBuilder orderBuilder() {
         return Order.builder()
                 .id(1)
@@ -124,5 +125,23 @@ class OrderFixture {
                 .createTime(LocalDateTime.of(2023, 8, 8, 10, 30, 0))
                 .updateTime(LocalDateTime.of(2023, 8, 8, 10, 30, 0))
                 .productDetails(PRODUCT_DETAIL_LIST)
+    }
+
+    static ProductDetail.ProductDetailBuilder productDetailBuilder() {
+        return ProductDetail.builder()
+                .id(1)
+                .name("water")
+                .price(BigDecimal.valueOf(10L))
+                .quantity(2)
+    }
+
+    static Product.ProductBuilder productBuilder() {
+        return Product.builder()
+                .id(1)
+                .name("water")
+                .price(BigDecimal.valueOf(10L))
+                .inventory(2)
+                .status(ProductStatus.VALID)
+
     }
 }

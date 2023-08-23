@@ -3,6 +3,7 @@ package com.example.infrastructure.persistence.repository.domain
 
 import com.example.common.exception.NotFoundException
 import com.example.domain.entity.Product
+import com.example.fixture.OrderFixture
 import com.example.infrastructure.persistence.entity.ProductPo
 import com.example.infrastructure.persistence.repository.JpaProductRepository
 import org.assertj.core.api.Assertions
@@ -69,20 +70,32 @@ class ProductDomainRepositoryTest extends Specification {
     def "should save product list successfully when update product inventory"() {
         given:
         List<ProductPo> productPoList = List.of(
-                new ProductPo(id: 1, name: "book1", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10),
-                new ProductPo(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10000)
+                new ProductPo(id: 1, name: "book1", price: BigDecimal.valueOf(10L), status: "VALID", inventory: 10),
+                new ProductPo(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "VALID", inventory: 10000)
         )
         jpaProductRepository.saveAll(productPoList) >> productPoList
 
         List<Product> productList = List.of(
-                new Product(id: 1, name: "book1", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10),
-                new Product(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "VALID", inventory:10000)
+                OrderFixture.productBuilder().id(1).name("book1").inventory(10).build(),
+                OrderFixture.productBuilder().id(2).name("book2").inventory(10000).build(),
         )
 
         when:
         def result = productDomainRepository.updateProductsInventory(productList)
         then:
-        Assertions.assertThat(productList).usingRecursiveComparison().ignoringCollectionOrder().isEqualTo(result)
+        Assertions.assertThat(productList)
+                .usingRecursiveComparison()
+                .ignoringCollectionOrder()
+                .isEqualTo(result)
+    }
+
+    def "should return product list successfully"() {
+        given:
+        List<ProductPo> productPoList = List.of(
+                new ProductPo(id: 1, name: "book1", price: BigDecimal.valueOf(10L), status: "VALID", inventory: 10),
+                new ProductPo(id: 2, name: "book2", price: BigDecimal.valueOf(10L), status: "VALID", inventory: 10000)
+        )
+        jpaProductRepository.saveAll(productPoList) >> productPoList
 
     }
 }
