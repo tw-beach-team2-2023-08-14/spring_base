@@ -1,5 +1,7 @@
 package com.example.domain.entity
 
+import com.example.common.exception.BusinessException
+import com.example.fixture.OrderFixture
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -25,5 +27,48 @@ class OrderTest extends Specification {
 
         then:
         assertEquals(new BigDecimal("20.00"), order.primitiveTotalPrice)
+    }
+
+
+    def "should set Order Status to Cancelled if Order is Created and pass verification"() {
+        given:
+        def order = OrderFixture
+                .orderBuilder()
+                .status(OrderStatus.CREATED)
+                .customerId(OrderFixture.CUSTOMER_ID)
+                .build()
+        when:
+        order.cancel(OrderFixture.CUSTOMER_ID)
+
+        then:
+        assertEquals(OrderStatus.CANCELLED, order.getStatus())
+    }
+
+    def "should throw exception when the order is not belongs to the customer"() {
+        given:
+        def order = OrderFixture
+                .orderBuilder()
+                .customerId(OrderFixture.CUSTOMER_ID)
+                .build()
+        when:
+        order.cancel("Not valid customer id")
+
+        then:
+        thrown(BusinessException)
+    }
+
+    def "should throw exception when pre check cancel order status already being cancelled"() {
+        given:
+
+        def order = OrderFixture
+                .orderBuilder()
+                .status(OrderStatus.CANCELLED)
+                .build()
+
+        when:
+        order.cancel(OrderFixture.CUSTOMER_ID)
+
+        then:
+        thrown(BusinessException)
     }
 }

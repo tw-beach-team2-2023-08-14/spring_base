@@ -101,4 +101,16 @@ class OrderFixture {
             updateTime: LocalDateTime.of(2023, 8, 8, 10, 30, 0),
             productDetails: PRODUCT_DETAIL_LIST
     )
+
+    static Order.OrderBuilder orderBuilder() {
+        return Order.builder()
+                .id(1)
+                .customerId(CUSTOMER_ID)
+                .orderId(ORDER_ID_ONE)
+                .totalPrice(BigDecimal.valueOf(10L))
+                .status(OrderStatus.CREATED)
+                .createTime(LocalDateTime.of(2023, 8, 8, 10, 30, 0))
+                .updateTime(LocalDateTime.of(2023, 8, 8, 10, 30, 0))
+                .productDetails(PRODUCT_DETAIL_LIST)
+    }
 }

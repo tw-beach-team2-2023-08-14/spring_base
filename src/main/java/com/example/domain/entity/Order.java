@@ -1,5 +1,10 @@
 package com.example.domain.entity;
 
+import static com.example.common.exception.BaseExceptionCode.CONFLICT;
+import static com.example.common.exception.BaseExceptionCode.INVALID_ORDER_STATUS;
+import static com.example.domain.entity.OrderStatus.CANCELLED;
+
+import com.example.common.exception.BusinessException;
 import com.example.domain.util.ProductDetailSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.math.BigDecimal;
@@ -9,15 +14,13 @@ import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class Order {
   private Integer id;
 
@@ -48,5 +51,19 @@ public class Order {
                         .multiply(BigDecimal.valueOf(productDetail.getQuantity())))
             .reduce(BigDecimal.ZERO, BigDecimal::add)
             .setScale(2, RoundingMode.HALF_UP);
+  }
+
+  public void cancel(String customerId) {
+
+    checkOrderBelonging(customerId);
+    if (status == CANCELLED) {
+      throw new BusinessException(INVALID_ORDER_STATUS, "Order already in cancelled stage.");
+    }
+    setStatus(CANCELLED);
+  }
+
+  private void checkOrderBelonging(String customerId) {
+    if (!customerId.equals(this.customerId))
+      throw new BusinessException(CONFLICT, "Customer id not match.");
   }
 }
