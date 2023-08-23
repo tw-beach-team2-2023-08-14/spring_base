@@ -46,7 +46,7 @@ public class OrderApplicationService {
   public OrderCreation createOrder(OrderReqDto orderReqDto) throws JsonProcessingException {
 
     List<Product> products =
-        productRepository.findAllByIds(
+        productRepository.lockAndFindAllByIds(
             orderReqDto.getOrderProducts().stream().map(OrderProductReqDto::getProductId).toList());
 
     Map<Integer, Integer> productIdQuantityMap =

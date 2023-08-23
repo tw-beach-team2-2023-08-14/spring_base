@@ -47,6 +47,13 @@ public class ProductDomainRepository implements ProductRepository {
 
   @Override
   public List<Product> lockAndFindAllByIds(List<Integer> productIds) {
-    return jpaProductRepository.lockAndFindAllByIds(productIds).stream().map(mapper::toDo).toList();
+    List<Product> products =
+        jpaProductRepository.lockAndFindAllByIds(productIds).stream().map(mapper::toDo).toList();
+
+    if (products.size() != productIds.size()) {
+      throw new NotFoundException(ExceptionCode.NOT_FOUND, NOT_FOUND_PRODUCT, "Not found product.");
+    }
+
+    return products;
   }
 }

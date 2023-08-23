@@ -6,13 +6,10 @@ import com.example.domain.repository.OrderRepository
 import com.example.domain.repository.ProductRepository
 import com.example.fixture.OrderFixture
 import com.example.presentation.vo.OrderDto
-import com.example.presentation.vo.OrderProductDetailDto
 import com.example.presentation.vo.OrderProductReqDto
 import com.example.presentation.vo.OrderReqDto
 import org.assertj.core.api.Assertions
 import spock.lang.Specification
-
-import java.time.LocalDateTime
 
 class OrderApplicationServiceTest extends Specification {
 
@@ -31,7 +28,7 @@ class OrderApplicationServiceTest extends Specification {
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, 10)
-        productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
+        productRepository.lockAndFindAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
         List<Product> productListToUpdate = List.of(new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.VALID, 0))
 
@@ -56,7 +53,7 @@ class OrderApplicationServiceTest extends Specification {
         OrderReqDto orderReqDto = new OrderReqDto("customerId", orderProducts)
 
         Product product = new Product(PRODUCT_ID, "testProduct", BigDecimal.TEN, null, ProductStatus.INVALID, null)
-        productRepository.findAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
+        productRepository.lockAndFindAllByIds(List.of(PRODUCT_ID)) >> List.of(product)
 
         orderRepository.save(_) >> newOrder
 
