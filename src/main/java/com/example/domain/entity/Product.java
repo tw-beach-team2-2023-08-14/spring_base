@@ -76,12 +76,15 @@ public class Product {
     return inventory >= quantity;
   }
 
-  public void updateInventory(Integer updateAmount) {
-    int newInventory = inventory + updateAmount;
-    if (newInventory < 0) {
+  public void deductInventory(Integer deductAmount) {
+    if (deductAmount > inventory) {
       throw new BusinessException(
           INSUFFICIENT_PRODUCT, "Product of id [" + id + "] is insufficient");
     }
-    setInventory(newInventory);
+    setInventory(inventory - deductAmount);
+  }
+
+  public void increaseInventory(Integer amount) {
+    setInventory(inventory + amount);
   }
 }

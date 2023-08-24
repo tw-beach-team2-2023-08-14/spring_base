@@ -92,7 +92,7 @@ class ProductTest extends Specification {
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
 
         when:
-        product.updateInventory(-7)
+        product.deductInventory(7)
 
         then:
         assertEquals(0, product.getInventory())
@@ -103,18 +103,18 @@ class ProductTest extends Specification {
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
 
         when:
-        product.updateInventory(-8)
+        product.deductInventory(8)
 
         then:
         thrown(BusinessException)
     }
 
-    def "should update inventory successfully with positive value"() {
+    def "should increase inventory successfully with positive value"() {
         given:
         Product product = new Product(1, "newProduct", BigDecimal.valueOf(10), BigDecimal.valueOf(0.9D), ProductStatus.VALID, 7)
 
         when:
-        product.updateInventory(10)
+        product.increaseInventory(10)
 
         then:
         assertEquals(17, product.getInventory())

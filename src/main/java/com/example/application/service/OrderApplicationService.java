@@ -55,7 +55,7 @@ public class OrderApplicationService {
     List<ProductDetail> productDetails = extractProductDetails(products, productIdQuantityMap);
 
     Order order = OrderFactory.createOrder(productDetails, orderReqDto.getCustomerId());
-    updateInventory(products, productIdQuantityMap);
+    updateInventory(products, productIdQuantityMap, Product::deductInventory);
     return new OrderCreation(orderRepository.save(order));
   }
 
@@ -67,9 +67,12 @@ public class OrderApplicationService {
     incrementProductInventory(order);
   }
 
-  private void updateInventory(List<Product> products, Map<Integer, Integer> productIdQuantityMap) {
+  private void updateInventory(
+      List<Product> products,
+      Map<Integer, Integer> productIdQuantityMap,
+      InventoryAdjuster inventoryAdjuster) {
     products.forEach(
-        (product) -> product.updateInventory(productIdQuantityMap.get(product.getId())));
+        (product) -> inventoryAdjuster.adjust(product, productIdQuantityMap.get(product.getId())));
     productRepository.updateProductsInventory(products);
   }
 
@@ -85,11 +88,8 @@ public class OrderApplicationService {
 
   private static Map<Integer, Integer> extractProductsOrderedQuantity(
       List<OrderProductReqDto> orderProductDtoList) {
-    return orderProductDtoList.stream()
-        .collect(
-            Collectors.toMap(
-                OrderProductReqDto::getProductId,
-                (orderProductDto) -> Math.negateExact(orderProductDto.getQuantity())));
+    return listToMap(
+        orderProductDtoList, OrderProductReqDto::getProductId, OrderProductReqDto::getQuantity);
   }
 
   private void incrementProductInventory(Order order) {
@@ -100,7 +100,7 @@ public class OrderApplicationService {
     Map<Integer, Integer> productIdQuantityMap =
         listToMap(productDetails, ProductDetail::getId, ProductDetail::getQuantity);
 
-    updateInventory(products, productIdQuantityMap);
+    updateInventory(products, productIdQuantityMap, Product::increaseInventory);
   }
 
   private static <K, T, J> Map<K, J> listToMap(
